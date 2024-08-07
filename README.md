@@ -15,7 +15,7 @@ And then you may be able to run the server with
 ./run
 ```
 
-At this point you can access the server in you browser in the address
+At this point you can access the server in your browser in the address
 
 [localhost:3000](http://localhost:3000)
 
