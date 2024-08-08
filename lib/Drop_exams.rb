@@ -12,8 +12,14 @@ conn = PG.connect(
 )
 
 table = db_config['table1']
-conn.exec("delete from #{table}")
+conn.exec("DELETE FROM #{table}")
 
 puts '________________________________________________'
 puts '|Todos os dados foram removidos da tabela Exams|'
 puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+
+conn.exec("DROP TABLE #{table}")
+
+puts '________________________________________'
+puts '|Tabela exams exluída do bando de dados|'
+puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'

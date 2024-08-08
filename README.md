@@ -22,6 +22,23 @@ At this point you may be able to access the database from any database manager, 
 Note: this project is academic, i have conscience that if it goes to production, those sensible information could not be displayed as it is now, it will be in a config file that wouldn't be commited to GitHub.
 As well, now you may be able to open the server with your browser in [localhost:3000](http://localhost:3000/tests).
 
+##### Manipulating database
+
+With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby. There's two options to manipulate
+
+```bash
+  ruby lib/Populate_DB.rb
+```
+
+Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
+
+
+```bash
+  ruby lib/Drop_exams.rb
+```
+
+Which will drop all the information from the table exams and then drop the table exams.
+
 ### Endpoints
 
 ##### /hello
