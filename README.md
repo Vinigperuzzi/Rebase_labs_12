@@ -19,7 +19,7 @@ docker-compose up -d --build
 ```
 
 At this point you may be able to access the database from any database manager, such as [dbeaver](https://dbeaver.io/download/) setting the configuration displayed in the docker-compose.yml file.
-Note: this project is academic, i have conscience that if it goes to production, those information could not be displayed as it is now, it will be in a config file that wouldn't be commited to GitHub.
+Note: this project is academic, i have conscience that if it goes to production, those sensible information could not be displayed as it is now, it will be in a config file that wouldn't be commited to GitHub.
 As well, now you may be able to open the server with your browser in [localhost:3000](http://localhost:3000/tests).
 
 ### Endpoints
