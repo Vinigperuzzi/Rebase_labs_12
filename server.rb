@@ -3,7 +3,7 @@ require 'rack/handler/puma'
 require 'csv'
 
 get '/tests' do
-  rows = CSV.read('./data.csv', col_sep: ';')
+  rows = CSV.read('./public/csv/data.csv', col_sep: ';')
 
   columns = rows.shift
 
