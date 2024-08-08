@@ -3,28 +3,47 @@ Here you can see the code for the Rebase Lab app. In this course we will work wi
 
 ### How to run
 
-To run this first version, you can clone this repo on your machine, and run the below command in terminal, so you can run the bash script.
+This project uses docker to run, so you may have the docker installed to run this project.
+You can see more about install docker [here](https://docs.docker.com/engine/install/).
+
+Once you have docker installed, you can run the follow command on the project's root folder:
 
 ```bash
-chmod +x run
+docker compose up -d --build
 ```
 
-And then you may be able to run the server with
+or if it gives an syntax error:
 
 ```bash
-./run
+docker-compose up -d --build
 ```
 
-At this point you can access the server in your browser in the address
+At this point you may be able to access the database from any database manager, such as [dbeaver](https://dbeaver.io/download/) setting the configuration displayed in the docker-compose.yml file.
+Note: this project is academic, i have conscience that if it goes to production, those sensible information could not be displayed as it is now, it will be in a config file that wouldn't be commited to GitHub.
+As well, now you may be able to open the server with your browser in [localhost:3000](http://localhost:3000/tests).
 
-[localhost:3000](http://localhost:3000)
+##### Manipulating database
 
-### endpoints
+With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby. There's two options to manipulate
+
+```bash
+  ruby lib/Populate_DB.rb
+```
+
+Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
+
+
+```bash
+  ruby lib/Drop_exams.rb
+```
+
+Which will drop all the information from the table exams and then drop the table exams.
+
+### Endpoints
 
 ##### /hello
+Display a 'Hello world' message
 
-This endpoint just show an "hello, world" on page
+###### /tests
+Show all the data from csv file (not reading from database yet)
 
-##### /tests
-
-This endpoint return a json with all data from csv, reading directly from the csv file.
