@@ -15,15 +15,15 @@ And then you may be able to run the server with
 ./run
 ```
 
-At this point you can access the server in your browser in the address
+At this point you can access the server in your browser at the address
 
 [localhost:3000](http://localhost:3000)
 
-### endpoints
+### Endpoints
 
 ##### /hello
 
-This endpoint just show an "hello, world" on page
+This endpoint just show a "hello, world" on page
 
 ##### /tests
 
