@@ -15,6 +15,7 @@ RSpec.describe ManipulateDB do
                         )
       @conn.exec('DROP TABLE IF EXISTS exams')
     rescue
+      puts 'Impossível conectar ao banco de dados de teste, rode o comando docker compose up -d --build para poder testar'
       exit!
     end
 
