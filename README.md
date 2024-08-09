@@ -27,14 +27,14 @@ As well, now you may be able to open the server with your browser in [localhost:
 With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby. There's two options to manipulate
 
 ```bash
-  ruby lib/Populate_DB.rb
+  ruby lib/populate_db.rb
 ```
 
 Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
 
 
 ```bash
-  ruby lib/Drop_exams.rb
+  ruby lib/drop_exams.rb
 ```
 
 Which will drop all the information from the table exams and then drop the table exams.
@@ -44,6 +44,6 @@ Which will drop all the information from the table exams and then drop the table
 ##### /hello
 Display a 'Hello world' message
 
-###### /tests
+##### /tests
 Show all the data from csv file (not reading from database yet)
 
