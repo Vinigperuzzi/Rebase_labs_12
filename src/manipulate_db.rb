@@ -15,10 +15,14 @@ class ManipulateDB
       host: @db_config['host'],
       port: @db_config['port']
     )
+  rescue
+    message = 'Impossível conectar ao banco de dados'
+    puts message
+    message
   end
 
   def populate_db
-    rows = CSV.read('./public/csv/data.csv', col_sep: ';')
+    rows = CSV.read(@file, col_sep: ';')
 
     columns = rows.shift
 
