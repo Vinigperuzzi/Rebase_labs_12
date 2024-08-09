@@ -45,5 +45,5 @@ Which will drop all the information from the table exams and then drop the table
 Display a 'Hello world' message
 
 ##### /tests
-Show all the data from csv file (not reading from database yet)
+Show all the data from the database (Note that the database must be populated with the script displayed before)
 
