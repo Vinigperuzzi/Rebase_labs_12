@@ -20,6 +20,7 @@ RSpec.describe ManipulateDB do
 
     after(:all) do
       @conn.exec('DROP TABLE IF EXISTS exams')
+      @conn.close
     end
 
   it 'populates the database with data from the csv file' do

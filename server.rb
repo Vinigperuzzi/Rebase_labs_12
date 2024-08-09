@@ -1,18 +1,28 @@
-require 'sinatra'
-require 'rack/handler/puma'
 require 'csv'
+require 'pg'
+require 'rack/handler/puma'
+require 'sinatra'
+require 'yaml'
+require 'json'
 
 get '/tests' do
-  rows = CSV.read('./public/csv/data.csv', col_sep: ';')
+  content_type :json
+  db_config = YAML.load_file('config/db.config')['development']
+  conn = PG.connect(
+    dbname: db_config['database'],
+    user: db_config['username'],
+    password: db_config['password'],
+    host: 'db',
+    port: db_config['port']
+  )
 
-  columns = rows.shift
+  rows = conn.exec('SELECT * FROM exams')
 
-  rows.map do |row|
-    row.each_with_object({}).with_index do |(cell, acc), idx|
-      column = columns[idx]
-      acc[column] = cell
-    end
-  end.to_json
+  result = []
+  rows.each do |row|
+    result << row
+  end
+  result.to_json
 end
 
 get '/hello' do
