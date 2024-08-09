@@ -109,7 +109,6 @@ class ManipulateDB
                     row['resultado tipo exame']
                   ])
     end
-    conn.close
   end
 
   def drop_exams
@@ -125,6 +124,5 @@ class ManipulateDB
     puts '________________________________________'
     puts '|Tabela exams exluída do bando de dados|'
     puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    conn.close
   end
 end
