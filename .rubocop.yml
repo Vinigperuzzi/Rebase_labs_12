@@ -1,0 +1,17 @@
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'lib/**/*'
+    - 'src/**/*'
+
+Metrics:
+  Exclude:
+    - 'spec/**/*'
+    - 'lib/**/*'
+    - 'src/**/*'
