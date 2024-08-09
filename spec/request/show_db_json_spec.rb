@@ -24,4 +24,18 @@ describe 'GET /tests' do
     expect(data[3899]['cpf']).to eq '071.488.453-78'
     expect(data[3899]['full_name']).to eq 'Antônio Rebouças'
   end
+
+  it "and there's no data" do
+    conn = instance_double('PG::Connection')
+
+    allow(conn).to receive(:exec).and_raise(PG::Error.new('inexistent table in DB'))
+
+    allow(PG).to receive(:connect).and_return(conn)
+
+    get '/tests'
+
+    expect(last_response.status).to eq(200)
+
+    expect(last_response.body).to eq 'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
+  end
 end

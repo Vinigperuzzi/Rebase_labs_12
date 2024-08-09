@@ -24,6 +24,8 @@ get '/tests' do
     result << row
   end
   result.to_json
+rescue
+  'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
 end
 
 get '/hello' do
