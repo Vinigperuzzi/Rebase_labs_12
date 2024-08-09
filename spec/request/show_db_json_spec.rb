@@ -13,7 +13,7 @@ describe 'GET /tests' do
 
   it 'returns all the data as JSON' do
     get '/tests'
-    
+
     expect(last_response.status).to eq(200)
 
     data = JSON.parse(last_response.body)

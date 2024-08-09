@@ -15,7 +15,7 @@ class ManipulateDB
       host: @db_config['host'],
       port: @db_config['port']
     )
-  rescue
+  rescue StandardError
     message = 'Impossível conectar ao banco de dados'
     puts message
     message
@@ -90,24 +90,24 @@ class ManipulateDB
                     exam_type_value \
                   ) \
                   VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
-                  [
-                    row['cpf'],
-                    row['nome paciente'],
-                    row['email paciente'],
-                    row['data nascimento paciente'],
-                    row['endereço/rua paciente'],
-                    row['cidade paciente'],
-                    row['estado patiente'],
-                    row['crm médico'],
-                    row['crm médico estado'],
-                    row['nome médico'],
-                    row['email médico'],
-                    row['token resultado exame'],
-                    row['data exame'],
-                    row['tipo exame'],
-                    row['limites tipo exame'],
-                    row['resultado tipo exame']
-                  ])
+                [
+                  row['cpf'],
+                  row['nome paciente'],
+                  row['email paciente'],
+                  row['data nascimento paciente'],
+                  row['endereço/rua paciente'],
+                  row['cidade paciente'],
+                  row['estado patiente'],
+                  row['crm médico'],
+                  row['crm médico estado'],
+                  row['nome médico'],
+                  row['email médico'],
+                  row['token resultado exame'],
+                  row['data exame'],
+                  row['tipo exame'],
+                  row['limites tipo exame'],
+                  row['resultado tipo exame']
+                ])
     end
   end
 

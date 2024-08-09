@@ -1,37 +1,36 @@
 require 'rspec'
 require 'pg'
 require 'yaml'
-require_relative '../../src/manipulate_db.rb'
+require_relative '../../src/manipulate_db'
 
 RSpec.describe ManipulateDB do
-    before(:all) do
-      @db_config = YAML.load_file('./config/db.config')['test']
-      @db = ManipulateDB.new(csv_file: './spec/support/test.csv', config_file: './config/db.config', scope: 'test')
-      @conn = PG.connect( dbname: @db_config['database'],
-                         user: @db_config['username'],
-                         password: @db_config['password'],
-                         host: @db_config['host'],
-                         port: @db_config['port']
-                        )
-      @conn.exec('DROP TABLE IF EXISTS exams')
-    rescue
-      puts 'Impossível conectar ao banco de dados de teste, rode o comando docker compose up -d --build para poder testar'
-      exit!
-    end
+  before(:all) do
+    @db_config = YAML.load_file('./config/db.config')['test']
+    @db = ManipulateDB.new(csv_file: './spec/support/test.csv', config_file: './config/db.config', scope: 'test')
+    @conn = PG.connect(dbname: @db_config['database'],
+                       user: @db_config['username'],
+                       password: @db_config['password'],
+                       host: @db_config['host'],
+                       port: @db_config['port'])
+    @conn.exec('DROP TABLE IF EXISTS exams')
+  rescue StandardError
+    puts 'Impossível conectar ao banco de dados de teste, rode o comando docker compose up -d --build para poder testar'
+    exit!
+  end
 
-    after(:all) do
-      @conn.exec('DROP TABLE IF EXISTS exams')
-    end
+  after(:all) do
+    @conn.exec('DROP TABLE IF EXISTS exams')
+  end
 
   it 'populates the database with data from the csv file' do
     @db.populate_db
 
-    result = @conn.exec("SELECT * FROM exams")
-    
+    result = @conn.exec('SELECT * FROM exams')
+
     first_row = result[0]
     second_row = result[1]
     third_row = result[2]
-    
+
     expect(result.ntuples).to eq 3
     expect(first_row['cpf']).to eq '048.973.170-88'
     expect(second_row['cpf']).to eq '048.973.170-88'
