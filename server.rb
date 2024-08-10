@@ -5,6 +5,19 @@ require 'sinatra'
 require 'yaml'
 require 'json'
 
+get '/home' do
+  content_type :html
+
+  html_path = './public/views/home.html.erb'
+
+  if File.exist?(html_path)
+    File.read(html_path)
+  else
+    status 404
+    'Arquivo não encontrado'
+  end
+end
+
 get '/tests' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
