@@ -63,7 +63,7 @@ class ManipulateDB
     puts '|Apagando os dados da tabelas exams do labs_db|'
     puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
 
-    conn.exec("delete from #{table}")
+    conn.exec("DELETE FROM #{table}")
 
     puts '_____________________________________________________'
     puts '|Inserindo os dados do arquivo csv no banco de dados|'
