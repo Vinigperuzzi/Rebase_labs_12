@@ -15,7 +15,7 @@ class Queries
     query_cpfs = @conn.exec('SELECT cpf FROM exams GROUP BY cpf;')
     cpfs = []
     query_cpfs.each do |cpf|
-      cpfs << cpf
+      cpfs << cpf['cpf']
     end
     cpfs
   end
