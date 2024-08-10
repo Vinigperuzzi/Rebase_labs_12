@@ -98,7 +98,7 @@ rspec
 Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
 
 
-Note for rebase people:
+### For rebase people:
 
 I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
 The fourth container is the container for tests (and manipulation of database). I create it because of the dependencies and principally to run the server encapsulated inside the container, not exposing the port 3000, avoiding the duplicate error for puma server. Also, i can set an environment variable to indicated that the db that may be used is the one from tests, protecting the development DB, making possible to use the application while running tests.
