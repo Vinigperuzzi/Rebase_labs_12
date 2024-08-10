@@ -27,13 +27,8 @@ RSpec.describe Queries do
     db.populate_db
 
     dql = Queries.new(config_file: './config/db.config', scope: 'test')
-    rows = dql.cpf_all
-    cpfs = []
-    rows.each do |row|
-      cpfs << row
-    end
+    cpfs = dql.cpf_all
 
-    puts cpfs.inspect
     expect(cpfs.length).to eq 5
   end
 end

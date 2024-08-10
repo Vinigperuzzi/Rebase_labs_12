@@ -35,9 +35,11 @@ class ManipulateDB
 
     table = @db_config['table1']
 
-    puts '________________________________________________'
-    puts '|Criando a tabela Exams, caso ela já não exista|'
-    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    unless ENV['RACK_ENV'] == 'test'
+      puts '________________________________________________'
+      puts '|Criando a tabela Exams, caso ela já não exista|'
+      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    end
 
     conn.exec("CREATE TABLE IF NOT EXISTS #{table} ( \
               cpf varchar(20), \
@@ -59,15 +61,19 @@ class ManipulateDB
               PRIMARY KEY (cpf, token, exam_type) \
               );")
 
-    puts '_______________________________________________'
-    puts '|Apagando os dados da tabelas exams do labs_db|'
-    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    unless ENV['RACK_ENV'] == 'test'
+      puts '_______________________________________________'
+      puts '|Apagando os dados da tabelas exams do labs_db|'
+      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    end
 
     conn.exec("DELETE FROM #{table}")
 
-    puts '_____________________________________________________'
-    puts '|Inserindo os dados do arquivo csv no banco de dados|'
-    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    unless ENV['RACK_ENV'] == 'test'
+      puts '_____________________________________________________'
+      puts '|Inserindo os dados do arquivo csv no banco de dados|'
+      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    end
 
     data.each do |row|
       conn.exec("INSERT INTO \
@@ -115,14 +121,18 @@ class ManipulateDB
     table = @db_config['table1']
     conn.exec("DELETE FROM #{table}")
 
-    puts '________________________________________________'
-    puts '|Todos os dados foram removidos da tabela Exams|'
-    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    unless ENV['RACK_ENV'] == 'test'
+      puts '________________________________________________'
+      puts '|Todos os dados foram removidos da tabela Exams|'
+      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    end
 
     conn.exec("DROP TABLE #{table}")
 
-    puts '________________________________________'
-    puts '|Tabela exams exluída do bando de dados|'
-    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    unless ENV['RACK_ENV'] == 'test'
+      puts '________________________________________'
+      puts '|Tabela exams exluída do bando de dados|'
+      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
+    end
   end
 end
