@@ -20,6 +20,15 @@ class Queries
     cpfs
   end
 
+  def all_tokens_by_cpf(cpf)
+    query_tokens = @conn.exec("SELECT token FROM exams WHERE cpf = '#{cpf}' GROUP BY token;")
+    tokens = []
+    query_tokens.each do |token|
+      tokens << token['token']
+    end
+    tokens
+  end
+
   private
 
   def connect_to_db config_file, scope

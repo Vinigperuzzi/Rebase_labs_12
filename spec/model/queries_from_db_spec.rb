@@ -37,11 +37,18 @@ RSpec.describe Queries do
     expect(cpfs[4]).to eq '048.973.170-88'
   end
 
-  it 'and bring all tokens for a list of cpfs (all_token_for_cpf)' do
-    db = ManipulateDB.new(csv_file: './spec/support/five_cpfs.csv', config_file: './config/db.config', scope: 'test')
+  it 'and bring all tokens for a list of cpfs (all_tokens_for_cpf)' do
+    db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config', scope: 'test')
     db.populate_db
 
     dql = Queries.new(config_file: './config/db.config', scope: 'test')
-    cpfs = dql.cpf_all
+    tokens = dql.all_tokens_by_cpf('048.973.170-88')
+
+    expect(tokens.length).to eq 5
+    expect(tokens[0]).to eq 'IQCZ01'
+    expect(tokens[1]).to eq 'IQCZ02'
+    expect(tokens[2]).to eq 'IQCZ03'
+    expect(tokens[3]).to eq 'IQCZ04'
+    expect(tokens[4]).to eq 'IQCZ05'
   end
 end
