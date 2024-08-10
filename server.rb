@@ -7,17 +7,19 @@ require 'json'
 
 get '/tests' do
   content_type :json
-  db_config = YAML.load_file('config/db.config')['development']
-  db_host = ENV['RACK_ENV'] == 'test' ? 'localhost' : 'db'
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  db_config = YAML.load_file('config/db.config')[scope]
   conn = PG.connect(
     dbname: db_config['database'],
     user: db_config['username'],
     password: db_config['password'],
-    host: db_host,
+    host: db_config['host'],
     port: db_config['port']
   )
 
-  rows = conn.exec('SELECT * FROM exams')
+  table = db_config['table1']
+
+  rows = conn.exec("SELECT * FROM #{table}")
 
   result = []
   rows.each do |row|

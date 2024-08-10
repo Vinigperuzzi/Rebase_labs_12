@@ -30,5 +30,20 @@ services:
     depends_on:
       - db
 
+  test_runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.test_runner
+    volumes:
+      - .:/app
+    depends_on:
+      - db_test
+    environment:
+      DATABASE_URL: postgres://tester:test_123@db_test:5432/test_db
+    tty: true
+    stdin_open: true
+    profiles:
+      - test
+
 volumes:
   postgres_data:

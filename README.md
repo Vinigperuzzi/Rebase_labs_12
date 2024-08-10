@@ -1,5 +1,5 @@
 # Rebase_labs_12
-Here you can see the code for the Rebase Lab app. In this course we will work with sinatra, docker, react, pure javascript, html and css, and in my case, postgreSQL.
+Here you can see the code for the Rebase Lab app. In this course we will work with sinatra, docker, pure javascript, html and css, and in my case, postgreSQL.
 
 ### How to run
 
@@ -24,7 +24,25 @@ As well, now you may be able to open the server with your browser in [localhost:
 
 ##### Manipulating database
 
-With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby. There's two options to manipulate
+With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby.
+Note: The scripts use the gem 'pg' that uses some libs from the postgreSQL client, here you have three options to run the scripts:
+
+- You can install postresqg client if you already haven't.
+- You can install just the libs for postgre with the command:
+```bash
+  sudo apt install libpq-dev
+```
+- You can use an docker container already configured with these configuration, so you can run a bash with these dependencies, with the command:
+
+```bash
+docker compose run --rm test_runner
+```
+or
+```bash
+docker-compose run --rm test_runner
+```
+
+In any of the two first ones, you can now run the commands listed below
 
 ```bash
   ruby lib/populate_db.rb
@@ -39,6 +57,16 @@ Which will create the exams table in labs_db database, in case it does not alrea
 
 Which will drop all the information from the table exams and then drop the table exams.
 
+In case you run inside the container bash, the commands may differ a bit, cause of the different network that is being used to connection, localhost or docker bridge. The commands are:
+
+```bash
+  ruby lib/populate_db_container.rb
+```
+and
+```bash
+  ruby lib/drop_exams_container.rb
+```
+
 ### Endpoints
 
 ##### /hello
@@ -47,3 +75,31 @@ Display a 'Hello world' message
 ##### /tests
 Show all the data from the database (Note that the database must be populated with the script displayed before)
 
+
+
+### How to test application
+The project has a container for tests, cause it install several libs for postgre connection, and it must be encapsulated in container.
+
+To run the terminal for the rspec command, you must simply run the container with the command:
+
+```bash
+docker-compose run --rm test_runner
+```
+or
+```bash
+docker compose run --rm test_runner
+```
+
+and then, run:
+
+```bash
+rspec
+```
+Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
+
+
+Note for rebase people:
+
+I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
+The fourth container is the container for tests (and manipulation of database). I create it because of the dependencies and principally to run the server encapsulated inside the container, not exposing the port 3000, avoiding the duplicate error for puma server. Also, i can set an environment variable to indicated that the db that may be used is the one from tests, protecting the development DB, making possible to use the application while running tests.
+The container for tests, despite being in the docker-compose.yml, does not run with the compose up command, just with the run, specifying the service.
