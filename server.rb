@@ -4,6 +4,7 @@ require 'rack/handler/puma'
 require 'sinatra'
 require 'yaml'
 require 'json'
+require_relative './src/queries.rb'
 
 get '/home' do
   content_type :html
@@ -16,6 +17,21 @@ get '/home' do
     status 404
     'Arquivo não encontrado'
   end
+end
+
+get '/test' do
+  content_type :json
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  dql = Queries.new(config_file: './config/db.config', scope: 'container')
+  cpfs = dql.cpf_all
+  tokens_list = []
+  cpfs.each do |cpf|
+    tokens = dql.all_tokens_by_cpf(cpf)
+    tokens.each do |token|
+      tokens_list << token
+    end
+  end
+  tokens_list.to_json
 end
 
 get '/tests' do
