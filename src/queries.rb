@@ -40,6 +40,18 @@ class Queries
     query_info.first
   end
 
+  def all_exams_types_by_token(token)
+    query_types = @conn.exec("SELECT exam_type, exam_type_limits, exam_type_value \
+                              FROM exams \
+                              WHERE token = '#{token}';
+                            ")
+    types = []
+    query_types.each do |type|
+      types << type
+    end
+    types
+  end
+
   private
 
   def connect_to_db config_file, scope

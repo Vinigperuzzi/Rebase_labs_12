@@ -30,10 +30,10 @@ describe 'GET /tests' do
   it 'returns all the data as JSON' do
     db = ManipulateDB.new(csv_file: './spec/support/test.csv', config_file: './config/db.config', scope: 'test')
     db.populate_db
+
     get '/tests'
 
     expect(last_response.status).to eq(200)
-
     data = JSON.parse(last_response.body)
     expect(data).to be_an(Array)
     expect(data.length).to eq 3
@@ -64,15 +64,12 @@ describe 'GET /tests' do
 
   it "and there's no data" do
     conn = instance_double('PG::Connection')
-
     allow(conn).to receive(:exec).and_raise(PG::Error.new('inexistent table in DB'))
-
     allow(PG).to receive(:connect).and_return(conn)
 
     get '/tests'
 
     expect(last_response.status).to eq(200)
-
     expect(last_response.body).to eq 'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
   end
 end

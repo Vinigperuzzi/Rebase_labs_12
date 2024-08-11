@@ -6,10 +6,10 @@ require 'yaml'
 require 'json'
 require_relative './src/queries.rb'
 
-get '/home' do
+get '/exams' do
   content_type :html
 
-  html_path = './public/views/home.html.erb'
+  html_path = './public/views/exams.html'
 
   if File.exist?(html_path)
     File.read(html_path)
@@ -22,7 +22,7 @@ end
 get '/test' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: 'container')
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
   cpfs = dql.cpf_all
   tokens_list = []
   cpfs.each do |cpf|
@@ -31,7 +31,57 @@ get '/test' do
       tokens_list << token
     end
   end
-  tokens_list.to_json
+  all_types = []
+  tokens_list.each do |token|
+    types = dql.all_exams_types_by_token(token)
+    types.each do |type|
+      all_types << type
+    end
+  end
+  all_types.to_json
+end
+
+get '/all_cpfs' do
+  content_type :json
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  cpfs = dql.cpf_all
+  cpfs_list = []
+  cpfs.each do |cpf|
+    cpfs_list << cpf
+  end
+  cpfs_list.to_json
+end
+
+get '/all_cpf_tokens/:cpf' do
+  content_type :json
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  tokens = dql.all_tokens_by_cpf(params[:cpf])
+  token_list = []
+  tokens.each do |token|
+    token_list << token
+  end
+  token_list.to_json
+end
+
+get '/all_token_info/:token' do
+  content_type :json
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql.all_info_by_token(params[:token]).to_json
+end
+
+get '/all_token_types/:token' do
+  content_type :json
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  types = dql.all_exams_types_by_token(params[:token])
+  all_types = []
+  types.each do |type|
+    all_types << type
+  end
+  all_types.to_json
 end
 
 get '/tests' do
