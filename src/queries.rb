@@ -5,10 +5,10 @@ require 'yaml'
 class Queries
   attr_accessor :conn, :db_config
 
-  def initialize config_file:, scope:
+  def initialize(config_file:, scope:)
     connect_to_db(config_file, scope)
   rescue StandardError
-    message = 'Impossível conectar ao banco de dados'
+    'Impossível conectar ao banco de dados'
   end
 
   def cpf_all
@@ -54,7 +54,7 @@ class Queries
 
   private
 
-  def connect_to_db config_file, scope
+  def connect_to_db(config_file, scope)
     @db_config = YAML.load_file(config_file)[scope]
     @conn = PG.connect(
       dbname: @db_config['database'],

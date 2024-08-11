@@ -59,7 +59,6 @@ describe 'GET /tests' do
     expect(data[2]['exam_type']).to eq 'plaquetas'
     expect(data[2]['exam_type_limits']).to eq '11-93'
     expect(data[2]['exam_type_value']).to eq '97'
-
   end
 
   it "and there's no data" do

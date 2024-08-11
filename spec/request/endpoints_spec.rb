@@ -48,7 +48,8 @@ describe 'GET endpoints' do
 
   context 'GET /all_cpf_tokens/048.973.170-88' do
     it 'returns all tokens for the specified cpf' do
-      db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config', scope: 'test')
+      db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config',
+                            scope: 'test')
       db.populate_db
 
       get '/all_cpf_tokens/048.973.170-88'
@@ -65,70 +66,72 @@ describe 'GET endpoints' do
 
   context 'GET /all_token_types/IQCZ17' do
     it 'returns all types for the specified cpf' do
-      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config', scope: 'test')
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
       db.populate_db
 
       get '/all_token_types/IQCZ17'
 
       types = JSON.parse(last_response.body)
       expect(types.length).to eq 13
-      expect(types[0]['exam_type']). to eq 'hemácias'
-      expect(types[0]['exam_type_limits']). to eq '45-52'
-      expect(types[0]['exam_type_value']). to eq '97'
+      expect(types[0]['exam_type']).to eq 'hemácias'
+      expect(types[0]['exam_type_limits']).to eq '45-52'
+      expect(types[0]['exam_type_value']).to eq '97'
 
-      expect(types[1]['exam_type']). to eq 'leucócitos'
-      expect(types[1]['exam_type_limits']). to eq '9-61'
-      expect(types[1]['exam_type_value']). to eq '89'
+      expect(types[1]['exam_type']).to eq 'leucócitos'
+      expect(types[1]['exam_type_limits']).to eq '9-61'
+      expect(types[1]['exam_type_value']).to eq '89'
 
-      expect(types[2]['exam_type']). to eq 'plaquetas'
-      expect(types[2]['exam_type_limits']). to eq '11-93'
-      expect(types[2]['exam_type_value']). to eq '97'
+      expect(types[2]['exam_type']).to eq 'plaquetas'
+      expect(types[2]['exam_type_limits']).to eq '11-93'
+      expect(types[2]['exam_type_value']).to eq '97'
 
-      expect(types[3]['exam_type']). to eq 'hdl'
-      expect(types[3]['exam_type_limits']). to eq '19-75'
-      expect(types[3]['exam_type_value']). to eq '0'
+      expect(types[3]['exam_type']).to eq 'hdl'
+      expect(types[3]['exam_type_limits']).to eq '19-75'
+      expect(types[3]['exam_type_value']).to eq '0'
 
-      expect(types[4]['exam_type']). to eq 'ldl'
-      expect(types[4]['exam_type_limits']). to eq '45-54'
-      expect(types[4]['exam_type_value']). to eq '80'
+      expect(types[4]['exam_type']).to eq 'ldl'
+      expect(types[4]['exam_type_limits']).to eq '45-54'
+      expect(types[4]['exam_type_value']).to eq '80'
 
-      expect(types[5]['exam_type']). to eq 'vldl'
-      expect(types[5]['exam_type_limits']). to eq '48-72'
-      expect(types[5]['exam_type_value']). to eq '82'
+      expect(types[5]['exam_type']).to eq 'vldl'
+      expect(types[5]['exam_type_limits']).to eq '48-72'
+      expect(types[5]['exam_type_value']).to eq '82'
 
-      expect(types[6]['exam_type']). to eq 'glicemia'
-      expect(types[6]['exam_type_limits']). to eq '25-83'
-      expect(types[6]['exam_type_value']). to eq '98'
+      expect(types[6]['exam_type']).to eq 'glicemia'
+      expect(types[6]['exam_type_limits']).to eq '25-83'
+      expect(types[6]['exam_type_value']).to eq '98'
 
-      expect(types[7]['exam_type']). to eq 'tgo'
-      expect(types[7]['exam_type_limits']). to eq '50-84'
-      expect(types[7]['exam_type_value']). to eq '87'
+      expect(types[7]['exam_type']).to eq 'tgo'
+      expect(types[7]['exam_type_limits']).to eq '50-84'
+      expect(types[7]['exam_type_value']).to eq '87'
 
-      expect(types[8]['exam_type']). to eq 'tgp'
-      expect(types[8]['exam_type_limits']). to eq '38-63'
-      expect(types[8]['exam_type_value']). to eq '9'
+      expect(types[8]['exam_type']).to eq 'tgp'
+      expect(types[8]['exam_type_limits']).to eq '38-63'
+      expect(types[8]['exam_type_value']).to eq '9'
 
-      expect(types[9]['exam_type']). to eq 'eletrólitos'
-      expect(types[9]['exam_type_limits']). to eq '2-68'
-      expect(types[9]['exam_type_value']). to eq '85'
+      expect(types[9]['exam_type']).to eq 'eletrólitos'
+      expect(types[9]['exam_type_limits']).to eq '2-68'
+      expect(types[9]['exam_type_value']).to eq '85'
 
-      expect(types[10]['exam_type']). to eq 'tsh'
-      expect(types[10]['exam_type_limits']). to eq '25-80'
-      expect(types[10]['exam_type_value']). to eq '65'
+      expect(types[10]['exam_type']).to eq 'tsh'
+      expect(types[10]['exam_type_limits']).to eq '25-80'
+      expect(types[10]['exam_type_value']).to eq '65'
 
-      expect(types[11]['exam_type']). to eq 't4-livre'
-      expect(types[11]['exam_type_limits']). to eq '34-60'
-      expect(types[11]['exam_type_value']). to eq '94'
+      expect(types[11]['exam_type']).to eq 't4-livre'
+      expect(types[11]['exam_type_limits']).to eq '34-60'
+      expect(types[11]['exam_type_value']).to eq '94'
 
-      expect(types[12]['exam_type']). to eq 'ácido úrico'
-      expect(types[12]['exam_type_limits']). to eq '15-61'
-      expect(types[12]['exam_type_value']). to eq '2'
+      expect(types[12]['exam_type']).to eq 'ácido úrico'
+      expect(types[12]['exam_type_limits']).to eq '15-61'
+      expect(types[12]['exam_type_value']).to eq '2'
     end
   end
 
   context 'GET /all_token_info/IQCZ17' do
     it 'returns all types for the specified cpf' do
-      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config', scope: 'test')
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
       db.populate_db
 
       get '/all_token_info/IQCZ17'

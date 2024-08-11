@@ -129,10 +129,10 @@ class ManipulateDB
 
     conn.exec("DROP TABLE #{table}")
 
-    unless ENV['RACK_ENV'] == 'test'
-      puts '________________________________________'
-      puts '|Tabela exams exluída do bando de dados|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
+    return if ENV['RACK_ENV'] == 'test'
+
+    puts '________________________________________'
+    puts '|Tabela exams exluída do bando de dados|'
+    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
   end
 end

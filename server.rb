@@ -4,7 +4,7 @@ require 'rack/handler/puma'
 require 'sinatra'
 require 'yaml'
 require 'json'
-require_relative './src/queries.rb'
+require_relative './src/queries'
 
 get '/exams' do
   content_type :html
@@ -105,7 +105,7 @@ get '/tests' do
     result << row
   end
   result.to_json
-rescue
+rescue StandardError
   'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
 end
 
