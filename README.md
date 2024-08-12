@@ -79,7 +79,7 @@ Show all the data from the database (Note that the database must be populated wi
 Return a html page that display information about all the data in the database organized and friendly to user
 
 ##### /all_cpfs
-Return a JSON with a list of all cpf registered in database
+Return a JSON with a list of all cpf registered in database, ordered by name, despite the name do not appear.
 
 ##### /all_cpf_tokens/:cpf
 Return a JSON with a list of all tokens for a given cpf
