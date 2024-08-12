@@ -69,14 +69,11 @@ and
 
 ### Endpoints
 
-##### /hello
-Display a 'Hello world' message
-
-##### /tests
-Show all the data from the database (Note that the database must be populated with the script displayed before)
+##### /exams-dark
+Return a html page that display information about all the data in the database organized and friendly to user in a dark theme page
 
 ##### /exams
-Return a html page that display information about all the data in the database organized and friendly to user
+Return a html page that display information about all the data in the database organized and friendly to user in a light theme page
 
 ##### /all_cpfs
 Return a JSON with a list of all cpf registered in database, ordered by name, despite the name do not appear.
@@ -93,6 +90,12 @@ Return a JSON with all information inherent to an person given it's cpf
 
 ##### /all_token_types/:token
 Return a detailed list with all types, limits and result of exams given an exam token.
+
+##### /hello
+Display a 'Hello world' message
+
+##### /tests
+Show all the data from the database (Note that the database must be populated with the script displayed before)
 
 
 ### How to test application

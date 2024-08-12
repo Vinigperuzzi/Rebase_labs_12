@@ -49,17 +49,17 @@ async function append_exams(cpf){
     let info = await token_response.json();
     let card = `
       <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
-        <div class="card bg-white text-dark">
+        <div class="card bg-secondary text-light">
           <div class="card-body">
-            <h5 class="card-title text-dark">Exame ${info.token} - ${format_date(info.exam_date)}</h5>
+            <h5 class="card-title text-light">Exame ${info.token} - ${format_date(info.exam_date)}</h5>
             <p class="card-text">
               Médico(a): ${info.dr_name} | CRM: ${info.dr_crm} - ${info.dr_state} <br>
               E-mail: ${info.dr_email}
             </p>
-            <table class="table table-hover">
+            <table class="table table-dark table-hover">
               ${await append_table(token)}
             </table>
-            <button href="#" type="button" class="btn btn-outline-dark">Detalhes</button>
+            <button href="#" type="button" class="btn btn-outline-light">Detalhes</button>
           </div>
         </div>
       </div>
@@ -82,10 +82,10 @@ async function append_people(cpfs_list){
     let response = await fetch(url);
     let info = await response.json();
     let card = `
-      <div class="card mt-5 bg-light">
-        <div class="card-body bg-light text-dark">
-          <h5 class="card-title text-dark">${info.full_name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">CPF: ${info.cpf}</h6>
+      <div class="card mt-5 bg-dark">
+        <div class="card-body bg-dark text-light">
+          <h5 class="card-title text-light">${info.full_name}</h5>
+          <h6 class="card-subtitle mb-2 text-light">CPF: ${info.cpf}</h6>
           <p>Data de nascimento: ${format_date(info.birth_date)} | E-mail: ${info.email} | ${info.address} - ${info.city} - ${info.state}</p>
           <div class="row">
             ${await append_exams(cpf)}

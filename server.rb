@@ -6,6 +6,19 @@ require 'yaml'
 require 'json'
 require_relative './src/queries'
 
+get '/exams-dark' do
+  content_type :html
+
+  html_path = './public/views/exams_dark.html'
+
+  if File.exist?(html_path)
+    File.read(html_path)
+  else
+    status 404
+    'Arquivo não encontrado'
+  end
+end
+
 get '/exams' do
   content_type :html
 
