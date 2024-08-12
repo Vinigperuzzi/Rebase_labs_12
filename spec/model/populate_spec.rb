@@ -5,13 +5,13 @@ require_relative '../../src/manipulate_db'
 
 RSpec.describe ManipulateDB do
   before(:all) do
-    @db_config = YAML.load_file('./config/db.config')['test']
+    db_config = YAML.load_file('./config/db.config')['test']
     @db = ManipulateDB.new(csv_file: './spec/support/test.csv', config_file: './config/db.config', scope: 'test')
-    @conn = PG.connect(dbname: @db_config['database'],
-                       user: @db_config['username'],
-                       password: @db_config['password'],
-                       host: @db_config['host'],
-                       port: @db_config['port'])
+    @conn = PG.connect(dbname: db_config['database'],
+                       user: db_config['username'],
+                       password: db_config['password'],
+                       host: db_config['host'],
+                       port: db_config['port'])
     @conn.exec('DROP TABLE IF EXISTS exams')
   rescue StandardError
     puts 'Impossível conectar ao banco de dados de teste, rode o comando docker compose up -d --build para poder testar'
