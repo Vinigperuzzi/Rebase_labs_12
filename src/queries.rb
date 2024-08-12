@@ -29,10 +29,17 @@ class Queries
     tokens
   end
 
-  def all_info_by_token(token)
-    query_info = @conn.exec("SELECT cpf, full_name, birth_date, email, address, city, state, dr_crm, \
+  def all_info_by_cpf(cpf)
+    query_info = @conn.exec("SELECT cpf, full_name, birth_date, email, address, city, state \
+                             FROM exams \
+                             WHERE cpf = '#{cpf}' \
+                             limit 1;
+                            ")
+    query_info.first
+  end
 
-                             dr_state, dr_name, dr_email, token, exam_date \
+  def all_info_by_token(token)
+    query_info = @conn.exec("SELECT dr_crm, dr_state, dr_name, dr_email, token, exam_date \
                              FROM exams \
                              WHERE token = '#{token}' \
                              limit 1;

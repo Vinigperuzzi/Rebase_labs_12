@@ -129,12 +129,30 @@ describe 'GET endpoints' do
   end
 
   context 'GET /all_token_info/IQCZ17' do
-    it 'returns all types for the specified cpf' do
+    it 'returns all information about an exam' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
 
       get '/all_token_info/IQCZ17'
+
+      info = JSON.parse(last_response.body)
+      expect(info['dr_crm']).to eq 'B000BJ20J4'
+      expect(info['dr_state']).to eq 'PI'
+      expect(info['dr_name']).to eq 'Maria Luiza Pires'
+      expect(info['dr_email']).to eq 'denna@wisozk.biz'
+      expect(info['token']).to eq 'IQCZ17'
+      expect(info['exam_date']).to eq '2021-08-05'
+    end
+  end
+
+  context 'GET /all_cpf_info/048.973.170-88' do
+    it 'returns all information about a cpf' do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_cpf_info/048.973.170-88'
 
       info = JSON.parse(last_response.body)
       expect(info['cpf']).to eq '048.973.170-88'
@@ -145,12 +163,6 @@ describe 'GET endpoints' do
       expect(info['address']).to eq '165 Rua Rafaela'
       expect(info['city']).to eq 'Ituverava'
       expect(info['state']).to eq 'Alagoas'
-      expect(info['dr_crm']).to eq 'B000BJ20J4'
-      expect(info['dr_state']).to eq 'PI'
-      expect(info['dr_name']).to eq 'Maria Luiza Pires'
-      expect(info['dr_email']).to eq 'denna@wisozk.biz'
-      expect(info['token']).to eq 'IQCZ17'
-      expect(info['exam_date']).to eq '2021-08-05'
     end
   end
 end

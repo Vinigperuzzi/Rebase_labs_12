@@ -72,6 +72,13 @@ get '/all_token_info/:token' do
   dql.all_info_by_token(params[:token]).to_json
 end
 
+get '/all_cpf_info/:cpf' do
+  content_type :json
+  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql.all_info_by_cpf(params[:cpf]).to_json
+end
+
 get '/all_token_types/:token' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'

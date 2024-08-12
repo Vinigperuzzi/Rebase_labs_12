@@ -60,6 +60,21 @@ RSpec.describe Queries do
 
     dql = Queries.new(config_file: './config/db.config', scope: 'test')
     info = dql.all_info_by_token('IQCZ17')
+    expect(info['dr_crm']).to eq 'B000BJ20J4'
+    expect(info['dr_state']).to eq 'PI'
+    expect(info['dr_name']).to eq 'Maria Luiza Pires'
+    expect(info['dr_email']).to eq 'denna@wisozk.biz'
+    expect(info['token']).to eq 'IQCZ17'
+    expect(info['exam_date']).to eq '2021-08-05'
+  end
+
+  it 'and brings info the patient by cpf' do
+    db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                          scope: 'test')
+    db.populate_db
+
+    dql = Queries.new(config_file: './config/db.config', scope: 'test')
+    info = dql.all_info_by_cpf('048.973.170-88')
 
     expect(info['cpf']).to eq '048.973.170-88'
     expect(info['full_name']).to eq 'Emilly Batista Neto'
@@ -69,12 +84,6 @@ RSpec.describe Queries do
     expect(info['address']).to eq '165 Rua Rafaela'
     expect(info['city']).to eq 'Ituverava'
     expect(info['state']).to eq 'Alagoas'
-    expect(info['dr_crm']).to eq 'B000BJ20J4'
-    expect(info['dr_state']).to eq 'PI'
-    expect(info['dr_name']).to eq 'Maria Luiza Pires'
-    expect(info['dr_email']).to eq 'denna@wisozk.biz'
-    expect(info['token']).to eq 'IQCZ17'
-    expect(info['exam_date']).to eq '2021-08-05'
   end
 
   it 'and brings all the types os exams for a given token' do
