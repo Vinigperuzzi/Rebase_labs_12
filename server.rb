@@ -108,7 +108,7 @@ get '/tests' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
-  dql.all_db().to_json
+  dql.tests().to_json
 rescue StandardError
   'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
 end

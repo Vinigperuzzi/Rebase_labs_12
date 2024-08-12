@@ -78,24 +78,278 @@ Return a html page that display information about all the data in the database o
 ##### /all_cpfs
 Return a JSON with a list of all cpf registered in database, ordered by name, despite the name do not appear.
 
+Response example:
+
+```json
+[
+  "002.678.897-71",
+  "018.581.237-63",
+  "026.890.166-05",
+  "048.550.171-67",
+  "086.225.702-66",
+  "071.488.453-78",
+  "053.553.249-08",
+  "097.725.477-16",
+  "027.989.952-13",
+  "077.877.076-15",
+  "071.868.284-00",
+  "036.662.049-53",
+  "049.397.154-85",
+  "081.878.172-67",
+  "048.973.170-88",
+  "076.638.088-27",
+  "013.888.116-26",
+  "092.375.756-29",
+  "077.578.592-04",
+  "016.201.315-95",
+  "077.411.587-40",
+  "037.787.232-60",
+  "092.580.778-81",
+  "072.328.987-54",
+  "009.898.217-65",
+  "050.039.641-88",
+  "083.892.729-70",
+  "048.108.026-04",
+  "015.457.518-62",
+  "099.204.552-53",
+  "030.781.943-45",
+  "033.837.707-70",
+  "073.372.599-64",
+  "081.031.558-02",
+  "080.239.177-06",
+  "040.716.080-99",
+  "066.126.400-90",
+  "094.010.477-66",
+  "013.808.384-36",
+  "089.034.562-70",
+  "090.232.501-92",
+  "084.796.691-79",
+  "052.041.078-51",
+  "020.486.910-21",
+  "006.810.440-55",
+  "003.596.348-42",
+  "076.278.738-43",
+  "019.338.696-82",
+  "086.183.708-86",
+  "061.475.044-01"
+]
+```
+
 ##### /all_cpf_tokens/:cpf
 Return a JSON with a list of all tokens for a given cpf
 
+Response example:
+
+```json
+[
+  "FXVA74",
+  "L3VQDE",
+  "NA0K1D",
+  "VC6WDW",
+  "XRNS2K"
+]
+```
+
 ##### /all_token_info/:token
 Return a JSON with all information inherent to an exam given it's token
+
+Response example:
+
+```json
+{
+  "dr_crm": "B000AR99QO",
+  "dr_state": "MS",
+  "dr_name": "Oliver Palmeira",
+  "dr_email": "lawana.erdman@waters.info",
+  "token": "FXVA74",
+  "exam_date": "2021-05-03"
+}
+```
 
 ##### /all_cpf_info/:cpf
 
 Return a JSON with all information inherent to an person given it's cpf
 
+Response example:
+
+```json
+{
+  "cpf": "037.787.232-60",
+  "full_name": "João Felipe Louzada",
+  "birth_date": "1985-01-22",
+  "email": "clifton_hyatt@koss.biz",
+  "address": "s/n Viela Theo Modesto",
+  "city": "Cachoeira dos Índios",
+  "state": "Tocantins"
+}
+```
+
 ##### /all_token_types/:token
 Return a detailed list with all types, limits and result of exams given an exam token.
+
+Response example:
+
+```json
+[
+  {
+    "exam_type": "hemácias",
+    "exam_type_limits": "45-52",
+    "exam_type_value": "58"
+  },
+  {
+    "exam_type": "leucócitos",
+    "exam_type_limits": "9-61",
+    "exam_type_value": "56"
+  },
+  {
+    "exam_type": "plaquetas",
+    "exam_type_limits": "11-93",
+    "exam_type_value": "38"
+  },
+  {
+    "exam_type": "hdl",
+    "exam_type_limits": "19-75",
+    "exam_type_value": "97"
+  },
+  {
+    "exam_type": "ldl",
+    "exam_type_limits": "45-54",
+    "exam_type_value": "86"
+  },
+  {
+    "exam_type": "vldl",
+    "exam_type_limits": "48-72",
+    "exam_type_value": "1"
+  },
+  {
+    "exam_type": "glicemia",
+    "exam_type_limits": "25-83",
+    "exam_type_value": "1"
+  },
+  {
+    "exam_type": "tgo",
+    "exam_type_limits": "50-84",
+    "exam_type_value": "90"
+  },
+  {
+    "exam_type": "tgp",
+    "exam_type_limits": "38-63",
+    "exam_type_value": "21"
+  },
+  {
+    "exam_type": "eletrólitos",
+    "exam_type_limits": "2-68",
+    "exam_type_value": "65"
+  },
+  {
+    "exam_type": "tsh",
+    "exam_type_limits": "25-80",
+    "exam_type_value": "63"
+  },
+  {
+    "exam_type": "t4-livre",
+    "exam_type_limits": "34-60",
+    "exam_type_value": "12"
+  },
+  {
+    "exam_type": "ácido úrico",
+    "exam_type_limits": "15-61",
+    "exam_type_value": "42"
+  }
+]
+```
 
 ##### /hello
 Display a 'Hello world' message
 
 ##### /tests
-Show all the data from the database (Note that the database must be populated with the script displayed before)
+Show all the relevant data for a list of tokens. It's the json model specified in the snippet.
+
+Response example:
+
+```json
+[{
+   "result_token":"T9O6AI",
+   "result_date":"2021-11-21",
+   "cpf":"066.126.400-90",
+   "name":"Matheus Barroso",
+   "email":"maricela@streich.com",
+   "birthday":"1972-03-09",
+   "doctor": {
+      "crm":"B000B7CDX4",
+      "crm_state":"SP",
+      "name":"Sra. Calebe Louzada"
+   },
+   "tests":[
+      {
+         "type":"hemácias",
+         "limits":"45-52",
+         "result":"48"
+      },
+      {
+         "type":"leucócitos",
+         "limits":"9-61",
+         "result":"75"
+      },
+      {
+         "test_type":"plaquetas",
+         "test_limits":"11-93",
+         "result":"67"
+      },
+      {
+         "test_type":"hdl",
+         "test_limits":"19-75",
+         "result":"3"
+      },
+      {
+         "test_type":"ldl",
+         "test_limits":"45-54",
+         "result":"27"
+      },
+      {
+         "test_type":"vldl",
+         "test_limits":"48-72",
+         "result":"27"
+      },
+      {
+         "test_type":"glicemia",
+         "test_limits":"25-83",
+         "result":"78"
+      },
+      {
+         "test_type":"tgo",
+         "test_limits":"50-84",
+         "result":"15"
+      },
+      {
+         "test_type":"tgp",
+         "test_limits":"38-63",
+         "result":"34"
+      },
+      {
+         "test_type":"eletrólitos",
+         "test_limits":"2-68",
+         "result":"92"
+      },
+      {
+         "test_type":"tsh",
+         "test_limits":"25-80",
+         "result":"21"
+      },
+      {
+         "test_type":"t4-livre",
+         "test_limits":"34-60",
+         "result":"95"
+      },
+      {
+         "test_type":"ácido úrico",
+         "test_limits":"15-61",
+         "result":"10"
+      }
+   ]
+}]
+
+```
 
 
 ### How to test application

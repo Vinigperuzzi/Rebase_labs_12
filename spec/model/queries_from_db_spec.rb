@@ -149,35 +149,72 @@ RSpec.describe Queries do
   end
 
   it 'returns all the data as JSON' do
-    db = ManipulateDB.new(csv_file: './spec/support/test.csv', config_file: './config/db.config', scope: 'test')
+    db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config', scope: 'test')
     db.populate_db
 
     dql = Queries.new(config_file: './config/db.config', scope: 'test')
-    data = dql.all_db
+    data = dql.tests
 
     expect(data).to be_an(Array)
     expect(data.length).to eq 3
-    expect(data[0]['cpf']).to eq '048.973.170-88'
-    expect(data[0]['full_name']).to eq 'Emilly Batista Neto'
-    expect(data[0]['email']).to eq 'gerald.crona@ebert-quigley.com'
-    expect(data[0]['birth_date']).to eq '2001-03-11'
-    expect(data[0]['address']).to eq '165 Rua Rafaela'
-    expect(data[0]['city']).to eq 'Ituverava'
-    expect(data[0]['state']).to eq 'Alagoas'
-    expect(data[0]['dr_crm']).to eq 'B000BJ20J4'
-    expect(data[0]['dr_state']).to eq 'PI'
-    expect(data[0]['dr_name']).to eq 'Maria Luiza Pires'
-    expect(data[0]['dr_email']).to eq 'denna@wisozk.biz'
-    expect(data[0]['token']).to eq 'IQCZ17'
-    expect(data[0]['exam_date']).to eq '2021-08-05'
-    expect(data[0]['exam_type']).to eq 'hemácias'
-    expect(data[0]['exam_type_limits']).to eq '45-52'
-    expect(data[0]['exam_type_value']).to eq '97'
-    expect(data[1]['exam_type']).to eq 'leucócitos'
-    expect(data[1]['exam_type_limits']).to eq '9-61'
-    expect(data[1]['exam_type_value']).to eq '89'
-    expect(data[2]['exam_type']).to eq 'plaquetas'
-    expect(data[2]['exam_type_limits']).to eq '11-93'
-    expect(data[2]['exam_type_value']).to eq '97'
+    expect(data[0][:cpf]).to eq '048.108.026-04'
+    expect(data[0][:name]).to eq 'Juliana dos Reis Filho'
+    expect(data[0][:email]).to eq 'mariana_crist@kutch-torp.com'
+    expect(data[0][:birthday]).to eq '1995-07-03'
+    expect(data[0][:doctor][:crm]).to eq 'B0002IQM66'
+    expect(data[0][:doctor][:crm_state]).to eq 'SC'
+    expect(data[0][:doctor][:name]).to eq 'Maria Helena Ramalho'
+
+    expect(data[0][:tests][0][:type]).to eq 'hemácias'
+    expect(data[0][:tests][0][:limits]).to eq '45-52'
+    expect(data[0][:tests][0][:result]).to eq '28'
+
+    expect(data[0][:tests][1][:type]).to eq 'leucócitos'
+    expect(data[0][:tests][1][:limits]).to eq '9-61'
+    expect(data[0][:tests][1][:result]).to eq '91'
+    
+    expect(data[0][:tests][2][:type]).to eq 'plaquetas'
+    expect(data[0][:tests][2][:limits]).to eq '11-93'
+    expect(data[0][:tests][2][:result]).to eq '18'
+
+    expect(data[0][:tests][3][:type]).to eq 'hdl'
+    expect(data[0][:tests][3][:limits]).to eq '19-75'
+    expect(data[0][:tests][3][:result]).to eq '74'
+
+    expect(data[0][:tests][4][:type]).to eq 'ldl'
+    expect(data[0][:tests][4][:limits]).to eq '45-54'
+    expect(data[0][:tests][4][:result]).to eq '66'
+
+    expect(data[0][:tests][5][:type]).to eq 'vldl'
+    expect(data[0][:tests][5][:limits]).to eq '48-72'
+    expect(data[0][:tests][5][:result]).to eq '41'
+
+    expect(data[0][:tests][6][:type]).to eq 'glicemia'
+    expect(data[0][:tests][6][:limits]).to eq '25-83'
+    expect(data[0][:tests][6][:result]).to eq '6'
+
+    expect(data[0][:tests][7][:type]).to eq 'tgo'
+    expect(data[0][:tests][7][:limits]).to eq '50-84'
+    expect(data[0][:tests][7][:result]).to eq '32'
+
+    expect(data[0][:tests][8][:type]).to eq 'tgp'
+    expect(data[0][:tests][8][:limits]).to eq '38-63'
+    expect(data[0][:tests][8][:result]).to eq '16'
+
+    expect(data[0][:tests][9][:type]).to eq 'eletrólitos'
+    expect(data[0][:tests][9][:limits]).to eq '2-68'
+    expect(data[0][:tests][9][:result]).to eq '61'
+
+    expect(data[0][:tests][10][:type]).to eq 'tsh'
+    expect(data[0][:tests][10][:limits]).to eq '25-80'
+    expect(data[0][:tests][10][:result]).to eq '13'
+
+    expect(data[0][:tests][11][:type]).to eq 't4-livre'
+    expect(data[0][:tests][11][:limits]).to eq '34-60'
+    expect(data[0][:tests][11][:result]).to eq '9'
+
+    expect(data[0][:tests][12][:type]).to eq 'ácido úrico'
+    expect(data[0][:tests][12][:limits]).to eq '15-61'
+    expect(data[0][:tests][12][:result]).to eq '78'
   end
 end
