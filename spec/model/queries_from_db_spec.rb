@@ -217,4 +217,72 @@ RSpec.describe Queries do
     expect(data[0][:tests][12][:limits]).to eq '15-61'
     expect(data[0][:tests][12][:result]).to eq '78'
   end
+
+  it 'returns the data for a token' do
+    db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config', scope: 'test')
+    db.populate_db
+
+    dql = Queries.new(config_file: './config/db.config', scope: 'test')
+    data = dql.test('0W9I67')
+
+    expect(data[:cpf]).to eq '048.108.026-04'
+    expect(data[:name]).to eq 'Juliana dos Reis Filho'
+    expect(data[:email]).to eq 'mariana_crist@kutch-torp.com'
+    expect(data[:birthday]).to eq '1995-07-03'
+    expect(data[:doctor][:crm]).to eq 'B0002IQM66'
+    expect(data[:doctor][:crm_state]).to eq 'SC'
+    expect(data[:doctor][:name]).to eq 'Maria Helena Ramalho'
+
+    expect(data[:tests][0][:type]).to eq 'hemácias'
+    expect(data[:tests][0][:limits]).to eq '45-52'
+    expect(data[:tests][0][:result]).to eq '28'
+
+    expect(data[:tests][1][:type]).to eq 'leucócitos'
+    expect(data[:tests][1][:limits]).to eq '9-61'
+    expect(data[:tests][1][:result]).to eq '91'
+    
+    expect(data[:tests][2][:type]).to eq 'plaquetas'
+    expect(data[:tests][2][:limits]).to eq '11-93'
+    expect(data[:tests][2][:result]).to eq '18'
+
+    expect(data[:tests][3][:type]).to eq 'hdl'
+    expect(data[:tests][3][:limits]).to eq '19-75'
+    expect(data[:tests][3][:result]).to eq '74'
+
+    expect(data[:tests][4][:type]).to eq 'ldl'
+    expect(data[:tests][4][:limits]).to eq '45-54'
+    expect(data[:tests][4][:result]).to eq '66'
+
+    expect(data[:tests][5][:type]).to eq 'vldl'
+    expect(data[:tests][5][:limits]).to eq '48-72'
+    expect(data[:tests][5][:result]).to eq '41'
+
+    expect(data[:tests][6][:type]).to eq 'glicemia'
+    expect(data[:tests][6][:limits]).to eq '25-83'
+    expect(data[:tests][6][:result]).to eq '6'
+
+    expect(data[:tests][7][:type]).to eq 'tgo'
+    expect(data[:tests][7][:limits]).to eq '50-84'
+    expect(data[:tests][7][:result]).to eq '32'
+
+    expect(data[:tests][8][:type]).to eq 'tgp'
+    expect(data[:tests][8][:limits]).to eq '38-63'
+    expect(data[:tests][8][:result]).to eq '16'
+
+    expect(data[:tests][9][:type]).to eq 'eletrólitos'
+    expect(data[:tests][9][:limits]).to eq '2-68'
+    expect(data[:tests][9][:result]).to eq '61'
+
+    expect(data[:tests][10][:type]).to eq 'tsh'
+    expect(data[:tests][10][:limits]).to eq '25-80'
+    expect(data[:tests][10][:result]).to eq '13'
+
+    expect(data[:tests][11][:type]).to eq 't4-livre'
+    expect(data[:tests][11][:limits]).to eq '34-60'
+    expect(data[:tests][11][:result]).to eq '9'
+
+    expect(data[:tests][12][:type]).to eq 'ácido úrico'
+    expect(data[:tests][12][:limits]).to eq '15-61'
+    expect(data[:tests][12][:result]).to eq '78'
+  end
 end

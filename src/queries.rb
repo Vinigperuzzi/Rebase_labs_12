@@ -104,6 +104,40 @@ class Queries
     json_list
   end
 
+  def test(token)
+    query_info = @conn.exec("SELECT cpf, full_name, birth_date, email, address, city, state, dr_crm, \
+                            dr_state, dr_name, dr_email, token, exam_date \
+                            FROM exams \
+                            WHERE token = '#{token}' \
+                            limit 1;
+                          ")
+    info = query_info.first
+    types = all_exams_types_by_token(token)
+    types_json = []
+    types.each do |type|
+      type_json = {
+        type: type['exam_type'],
+        limits: type['exam_type_limits'],
+        result: type['exam_type_value']
+      }
+      types_json << type_json
+    end
+    json = {
+      result_token: info['token'],
+      result_date: info['exam_date'],
+      cpf: info['cpf'],
+      name: info['full_name'],
+      email: info['email'],
+      birthday: info['birth_date'],
+      doctor: {
+        crm: info['dr_crm'],
+        crm_state: info['dr_state'],
+        name: info['dr_name']
+      },
+      tests: types_json
+    }
+  end
+
   private
 
   def connect_to_db(config_file, scope)

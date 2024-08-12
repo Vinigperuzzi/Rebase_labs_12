@@ -378,6 +378,9 @@ Note: the database for tests must be already running for tests work properly, so
 
 ### For rebase people:
 
-I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
+About containers: I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
 The fourth container is the container for tests (and manipulation of database). I create it because of the dependencies and principally to run the server encapsulated inside the container, not exposing the port 3000, avoiding the duplicate error for puma server. Also, i can set an environment variable to indicated that the db that may be used is the one from tests, protecting the development DB, making possible to use the application while running tests.
 The container for tests, despite being in the docker-compose.yml, does not run with the compose up command, just with the run, specifying the service.
+
+
+About exam view: I did implemented the requested endpoint such as listed in feature 2, but the text seemed to suggest that the view must be the json required in the feature, but in a html friendly view. I misread it, and i get the idea that i should display all information in a more friendly view, so i took the liberty of implementing more endpoints an as well a more refined view using pure javascript. Actually, when i first read it, i draw the layout in my head and couldn't look other way, since the layout was not specified and the term let it open to interpretation.
