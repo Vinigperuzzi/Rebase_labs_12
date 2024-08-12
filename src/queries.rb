@@ -59,6 +59,15 @@ class Queries
     types
   end
 
+  def all_db
+    rows = @conn.exec("SELECT * FROM exams")
+    result = []
+    rows.each do |row|
+      result << row
+    end
+    result
+  end
+
   private
 
   def connect_to_db(config_file, scope)

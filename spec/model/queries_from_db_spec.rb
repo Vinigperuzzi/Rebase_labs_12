@@ -147,4 +147,37 @@ RSpec.describe Queries do
     expect(types[12]['exam_type_limits']).to eq '15-61'
     expect(types[12]['exam_type_value']).to eq '2'
   end
+
+  it 'returns all the data as JSON' do
+    db = ManipulateDB.new(csv_file: './spec/support/test.csv', config_file: './config/db.config', scope: 'test')
+    db.populate_db
+
+    dql = Queries.new(config_file: './config/db.config', scope: 'test')
+    data = dql.all_db
+
+    expect(data).to be_an(Array)
+    expect(data.length).to eq 3
+    expect(data[0]['cpf']).to eq '048.973.170-88'
+    expect(data[0]['full_name']).to eq 'Emilly Batista Neto'
+    expect(data[0]['email']).to eq 'gerald.crona@ebert-quigley.com'
+    expect(data[0]['birth_date']).to eq '2001-03-11'
+    expect(data[0]['address']).to eq '165 Rua Rafaela'
+    expect(data[0]['city']).to eq 'Ituverava'
+    expect(data[0]['state']).to eq 'Alagoas'
+    expect(data[0]['dr_crm']).to eq 'B000BJ20J4'
+    expect(data[0]['dr_state']).to eq 'PI'
+    expect(data[0]['dr_name']).to eq 'Maria Luiza Pires'
+    expect(data[0]['dr_email']).to eq 'denna@wisozk.biz'
+    expect(data[0]['token']).to eq 'IQCZ17'
+    expect(data[0]['exam_date']).to eq '2021-08-05'
+    expect(data[0]['exam_type']).to eq 'hemácias'
+    expect(data[0]['exam_type_limits']).to eq '45-52'
+    expect(data[0]['exam_type_value']).to eq '97'
+    expect(data[1]['exam_type']).to eq 'leucócitos'
+    expect(data[1]['exam_type_limits']).to eq '9-61'
+    expect(data[1]['exam_type_value']).to eq '89'
+    expect(data[2]['exam_type']).to eq 'plaquetas'
+    expect(data[2]['exam_type_limits']).to eq '11-93'
+    expect(data[2]['exam_type_value']).to eq '97'
+  end
 end

@@ -107,24 +107,8 @@ end
 get '/tests' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
-  db_config = YAML.load_file('config/db.config')[scope]
-  conn = PG.connect(
-    dbname: db_config['database'],
-    user: db_config['username'],
-    password: db_config['password'],
-    host: db_config['host'],
-    port: db_config['port']
-  )
-
-  table = db_config['table1']
-
-  rows = conn.exec("SELECT * FROM #{table}")
-
-  result = []
-  rows.each do |row|
-    result << row
-  end
-  result.to_json
+  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql.all_db().to_json
 rescue StandardError
   'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
 end
