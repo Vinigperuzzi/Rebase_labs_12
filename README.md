@@ -75,6 +75,24 @@ Display a 'Hello world' message
 ##### /tests
 Show all the data from the database (Note that the database must be populated with the script displayed before)
 
+##### /exams
+Return a html page that display information about all the data in the database organized and friendly to user
+
+##### /all_cpfs
+Return a JSON with a list of all cpf registered in database
+
+##### /all_cpf_tokens/:cpf
+Return a JSON with a list of all tokens for a given cpf
+
+##### /all_token_info/:token
+Return a JSON with all information inherent to an exam given it's token
+
+##### /all_cpf_info/:cpf
+
+Return a JSON with all information inherent to an person given it's cpf
+
+##### /all_token_types/:token
+Return a detailed list with all types, limits and result of exams given an exam token.
 
 
 ### How to test application
@@ -96,6 +114,9 @@ and then, run:
 rspec
 ```
 Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
+
+
+
 
 
 ### For rebase people:
