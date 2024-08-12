@@ -4,6 +4,7 @@ const all_cpf_info = `${host_port}/all_cpf_info/`;
 const all_cpf_tokens = `${host_port}/all_cpf_tokens/`;
 const all_token_info = `${host_port}/all_token_info/`;
 const all_types_info = `${host_port}/all_token_types/`;
+const exam_details = `${host_port}/exams-dark/`;
 
 function format_date(date){
   let [year, month, day] = date.split('-')
@@ -59,7 +60,7 @@ async function append_exams(cpf){
             <table class="table table-dark table-hover">
               ${await append_table(token)}
             </table>
-            <button href="#" type="button" class="btn btn-outline-light">Detalhes</button>
+            <a href="${exam_details}${token}" class="btn btn-outline-light">Detalhes</a>
           </div>
         </div>
       </div>
