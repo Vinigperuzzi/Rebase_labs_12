@@ -86,7 +86,12 @@ async function append_person(token){
 }
 
 async function main() {
-  append_person(token);
+  try {
+    await append_person(token);
+  } catch (error) {
+    let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
+    document.querySelector('.exams-list').innerHTML = message;
+  }
 }
 
 main();

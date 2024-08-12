@@ -100,8 +100,13 @@ async function append_people(cpfs_list){
 }
 
 async function main() {
-  cpfs_list = await get_cpfs();
-  append_people(cpfs_list);
+  try {
+    cpfs_list = await get_cpfs();
+    await append_people(cpfs_list);
+  } catch (error) {
+    let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
+    document.querySelector('.exams-list').innerHTML = message;
+  }
 }
 
 main();
