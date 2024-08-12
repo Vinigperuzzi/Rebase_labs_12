@@ -9,6 +9,15 @@
   <body class="bg-dark text-light">
     <div class="container">
       <h1 class="text-center my-4 display-4 text-light">Listagem de Exames</h1>
+
+      <form class="mb-4">
+        <div class="mb-3">
+          <label for="token" class="form-label">Token do Exame</label>
+          <input type="email" class="form-control" id="token">
+        </div>
+        <div type="submit" class="btn btn-outline-light" onclick="render_exam_dark()">Buscar</div>
+      </form>
+
       <section class="exams-list p-4 bg-secondary rounded shadow-lg">
         <h3>Por favor, aguarde... Buscando informações no Banco de Dados...</h3>
         <h5>Esta ação pode demorar alguns segundos...</h5>
@@ -16,5 +25,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../js/exams_dark.js"></script>
+    <script src="../js/search.js"></script>
   </body>
 </html>

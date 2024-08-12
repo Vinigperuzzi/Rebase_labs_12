@@ -26,12 +26,12 @@ async function append_table(info){
           <td>${test.result}</td>
     `;
     let [min, max] = test.limits.split('-');
-    if (test.result < min){
+    if (Number(test.result) < Number(min)){
       table += `
         <td style='color: red'>Abaixo</td>
         </tr>
       `;
-    } else if (test.result > max) {
+    } else if (Number(test.result) > Number(max)) {
       table += `
         <td style='color: red'>Acima</td>
         </tr>
