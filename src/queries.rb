@@ -12,7 +12,7 @@ class Queries
   end
 
   def cpf_all
-    query_cpfs = @conn.exec('SELECT cpf FROM exams GROUP BY cpf;')
+    query_cpfs = @conn.exec('SELECT cpf FROM exams GROUP BY cpf, full_name ORDER BY full_name;')
     cpfs = []
     query_cpfs.each do |cpf|
       cpfs << cpf['cpf']

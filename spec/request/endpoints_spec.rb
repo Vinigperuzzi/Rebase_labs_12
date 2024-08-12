@@ -38,11 +38,11 @@ describe 'GET endpoints' do
 
       cpfs = JSON.parse(last_response.body)
       expect(cpfs.length).to eq 5
-      expect(cpfs[0]).to eq '077.411.587-40'
-      expect(cpfs[1]).to eq '066.126.400-90'
-      expect(cpfs[2]).to eq '089.034.562-70'
-      expect(cpfs[3]).to eq '083.892.729-70'
-      expect(cpfs[4]).to eq '048.973.170-88'
+      expect(cpfs[0]).to eq '048.973.170-88'
+      expect(cpfs[1]).to eq '077.411.587-40'
+      expect(cpfs[2]).to eq '083.892.729-70'
+      expect(cpfs[3]).to eq '066.126.400-90'
+      expect(cpfs[4]).to eq '089.034.562-70'
     end
   end
 
