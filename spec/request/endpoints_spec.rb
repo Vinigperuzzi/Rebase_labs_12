@@ -151,17 +151,6 @@ describe 'GET endpoints' do
   end
 
   context 'GET /all_token_info/token' do
-    it "and there's no token match" do
-      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
-                            scope: 'test')
-      db.populate_db
-
-      get '/all_token_info/000000'
-
-      info = JSON.parse(last_response.body)
-      expect(info.nil?).to be true
-    end
-
     it 'returns all information about an exam' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
@@ -177,10 +166,21 @@ describe 'GET endpoints' do
       expect(info['token']).to eq 'IQCZ17'
       expect(info['exam_date']).to eq '2021-08-05'
     end
+
+    it "and there's no token match" do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_token_info/000000'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true
+    end
   end
 
   context 'GET /all_cpf_info/048.973.170-88' do
-    it 'returns all information about a cpf' do
+    it 'and returns all information about a cpf' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -196,6 +196,17 @@ describe 'GET endpoints' do
       expect(info['address']).to eq '165 Rua Rafaela'
       expect(info['city']).to eq 'Ituverava'
       expect(info['state']).to eq 'Alagoas'
+    end
+
+    it "and there's no cpf match" do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_cpf_info/000.000.000-00'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true
     end
   end
 
@@ -229,7 +240,7 @@ describe 'GET endpoints' do
   end
 
   context 'GET /tests/token' do
-    it 'returns info of all tests' do
+    it 'and returns info of all tests' do
       db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -253,6 +264,17 @@ describe 'GET endpoints' do
       expect(info['tests'][1]['type']).to eq 'leucócitos'
       expect(info['tests'][1]['limits']).to eq '9-61'
       expect(info['tests'][1]['result']).to eq '91'
+    end
+
+    it "and there's no match for token" do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/tests/000000'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true 
     end
   end
 end
