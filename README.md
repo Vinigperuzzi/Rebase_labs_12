@@ -362,16 +362,28 @@ docker-compose run --rm test_runner
 ```
 or
 ```bash
-docker compose run --rm test_runner
+docker compose run --rm test_runner rspec
 ```
 
-and then, run:
+To test just the cypress for navigation, you can run:
 
 ```bash
-rspec
+docker compose run --rm cypress_test
 ```
-Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
 
+With the command bellow you can test both rspec for backend and cypress for frontend navigation. (Recommended for just test all application at once, not for development)
+
+```bash
+bin/test
+```
+
+Maybe you will have to run first:
+
+```bash
+chmod +x bin/bash
+```
+
+Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
 
 
 

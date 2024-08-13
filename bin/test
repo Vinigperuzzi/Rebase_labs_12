@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker compose run --rm test_runner rspec
+
+docker compose run --rm cypress_test | grep -A 10 'Run Finished'

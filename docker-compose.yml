@@ -45,5 +45,21 @@ services:
     profiles:
       - test
 
+  cypress_test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test_runner_js
+    volumes:
+      - .:/app
+    depends_on:
+      - db_test
+    environment:
+      DATABASE_URL: postgres://tester:test_123@db_test:5432/test_db
+      CYPRESS_baseUrl: http://app:3000
+    tty: true
+    stdin_open: true
+    profiles:
+      - test
+
 volumes:
   postgres_data:
