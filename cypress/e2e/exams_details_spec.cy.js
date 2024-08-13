@@ -1,4 +1,4 @@
-describe('Visits exams list', () => {
+describe('Visits exams details', () => {
   it('And shows detailed info about the exame specified by token', () => {
     cy.visit('/exams/4NFEXP');
 
