@@ -130,7 +130,10 @@ get '/tests/:token' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
-  dql.test(params[:token]).to_json
+  data = dql.test(params[:token]).to_json
+  return nil if data.nil?
+  
+  data
 end
 
 get '/hello' do

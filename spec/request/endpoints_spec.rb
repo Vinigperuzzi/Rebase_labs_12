@@ -47,7 +47,7 @@ describe 'GET endpoints' do
   end
 
   context 'GET /all_cpf_tokens/048.973.170-88' do
-    it 'returns all tokens for the specified cpf' do
+    it 'and returns all tokens for the specified cpf' do
       db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -62,10 +62,21 @@ describe 'GET endpoints' do
       expect(tokens[3]).to eq 'IQCZ04'
       expect(tokens[4]).to eq 'IQCZ05'
     end
+
+    it "and there's is no cpf match" do
+      db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_cpf_tokens/000.000.000-00'
+
+      tokens = JSON.parse(last_response.body)
+      expect(tokens).to eq []
+    end
   end
 
-  context 'GET /all_token_types/IQCZ17' do
-    it 'returns all types for the specified cpf' do
+  context 'GET /all_token_types/token' do
+    it 'and returns all types for the specified token' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -126,9 +137,20 @@ describe 'GET endpoints' do
       expect(types[12]['exam_type_limits']).to eq '15-61'
       expect(types[12]['exam_type_value']).to eq '2'
     end
+
+    it 'returns all types for the specified token' do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_token_types/000000'
+
+      types = JSON.parse(last_response.body)
+      expect(types).to eq []
+    end
   end
 
-  context 'GET /all_token_info/IQCZ17' do
+  context 'GET /all_token_info/token' do
     it 'returns all information about an exam' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
@@ -144,10 +166,21 @@ describe 'GET endpoints' do
       expect(info['token']).to eq 'IQCZ17'
       expect(info['exam_date']).to eq '2021-08-05'
     end
+
+    it "and there's no token match" do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_token_info/000000'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true
+    end
   end
 
   context 'GET /all_cpf_info/048.973.170-88' do
-    it 'returns all information about a cpf' do
+    it 'and returns all information about a cpf' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -163,6 +196,85 @@ describe 'GET endpoints' do
       expect(info['address']).to eq '165 Rua Rafaela'
       expect(info['city']).to eq 'Ituverava'
       expect(info['state']).to eq 'Alagoas'
+    end
+
+    it "and there's no cpf match" do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_cpf_info/000.000.000-00'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true
+    end
+  end
+
+  context 'GET /tests' do
+    it 'returns info of all tests' do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/tests'
+
+      info = JSON.parse(last_response.body)
+      expect(info.length).to eq 3
+      expect(info[0]['result_token']).to eq '0W9I67'
+      expect(info[0]['result_date']).to eq '2021-07-09'
+      expect(info[0]['cpf']).to eq '048.108.026-04'
+      expect(info[0]['name']).to eq 'Juliana dos Reis Filho'
+      expect(info[0]['email']).to eq 'mariana_crist@kutch-torp.com'
+      expect(info[0]['birthday']).to eq '1995-07-03'
+      expect(info[0]['doctor']['crm']).to eq 'B0002IQM66'
+      expect(info[0]['doctor']['crm_state']).to eq 'SC'
+      expect(info[0]['doctor']['name']).to eq 'Maria Helena Ramalho'
+      expect(info[0]['tests'][0]['type']).to eq 'hemácias'
+      expect(info[0]['tests'][0]['limits']).to eq '45-52'
+      expect(info[0]['tests'][0]['result']).to eq '28'
+
+      expect(info[0]['tests'][1]['type']).to eq 'leucócitos'
+      expect(info[0]['tests'][1]['limits']).to eq '9-61'
+      expect(info[0]['tests'][1]['result']).to eq '91'
+    end
+  end
+
+  context 'GET /tests/token' do
+    it 'and returns info of all tests' do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/tests/0W9I67'
+
+      info = JSON.parse(last_response.body)
+      expect(info['result_token']).to eq '0W9I67'
+      expect(info['result_date']).to eq '2021-07-09'
+      expect(info['cpf']).to eq '048.108.026-04'
+      expect(info['name']).to eq 'Juliana dos Reis Filho'
+      expect(info['email']).to eq 'mariana_crist@kutch-torp.com'
+      expect(info['birthday']).to eq '1995-07-03'
+      expect(info['doctor']['crm']).to eq 'B0002IQM66'
+      expect(info['doctor']['crm_state']).to eq 'SC'
+      expect(info['doctor']['name']).to eq 'Maria Helena Ramalho'
+      expect(info['tests'][0]['type']).to eq 'hemácias'
+      expect(info['tests'][0]['limits']).to eq '45-52'
+      expect(info['tests'][0]['result']).to eq '28'
+
+      expect(info['tests'][1]['type']).to eq 'leucócitos'
+      expect(info['tests'][1]['limits']).to eq '9-61'
+      expect(info['tests'][1]['result']).to eq '91'
+    end
+
+    it "and there's no match for token" do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/tests/000000'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true 
     end
   end
 end

@@ -1,10 +1,11 @@
-const host_port = 'http://localhost:3000'
-const all_cpf_url = `${host_port}/all_cpfs`;
-const all_cpf_info = `${host_port}/all_cpf_info/`;
-const all_cpf_tokens = `${host_port}/all_cpf_tokens/`;
-const all_token_info = `${host_port}/all_token_info/`;
-const all_types_info = `${host_port}/all_token_types/`;
-const exam_details = `${host_port}/exams/`;
+let host = 'localhost';
+let host_port = `http://${host}:3000`;
+let all_cpf_url = `${host_port}/all_cpfs`;
+let all_cpf_info = `${host_port}/all_cpf_info/`;
+let all_cpf_tokens = `${host_port}/all_cpf_tokens/`;
+let all_token_info = `${host_port}/all_token_info/`;
+let all_types_info = `${host_port}/all_token_types/`;
+let exam_details = `${host_port}/exams/`;
 
 function format_date(date){
   let [year, month, day] = date.split('-')
@@ -70,12 +71,6 @@ async function append_exams(cpf){
   return cards;
 }
 
-async function get_cpfs() {
-  let response = await fetch(all_cpf_url);
-  let cpfs_list = await response.json();
-  return cpfs_list
-}
-
 async function append_people(cpfs_list){
   let cards = '';
   for (let cpf of cpfs_list) {
@@ -99,13 +94,32 @@ async function append_people(cpfs_list){
   document.querySelector('.exams-list').innerHTML = cards;
 }
 
+async function get_cpfs() {
+  let response = await fetch(all_cpf_url);
+  let cpfs_list = await response.json();
+  return cpfs_list
+}
+
 async function main() {
   try {
     cpfs_list = await get_cpfs();
     await append_people(cpfs_list);
   } catch (error) {
-    let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
-    document.querySelector('.exams-list').innerHTML = message;
+    try {
+      host = 'app';
+      host_port = `http://${host}:3000`;
+      all_cpf_url = `${host_port}/all_cpfs`;
+      all_cpf_info = `${host_port}/all_cpf_info/`;
+      all_cpf_tokens = `${host_port}/all_cpf_tokens/`;
+      all_token_info = `${host_port}/all_token_info/`;
+      all_types_info = `${host_port}/all_token_types/`;
+      exam_details = `${host_port}/exams/`;
+      cpfs_list = await get_cpfs();
+      await append_people(cpfs_list.slice(0,2));
+    } catch (error) {
+      let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
+      document.querySelector('.exams-list').innerHTML = message;
+    }
   }
 }
 

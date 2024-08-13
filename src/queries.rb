@@ -75,6 +75,8 @@ class Queries
                               limit 1;
                             ")
       info = query_info.first
+      return nil if info.nil?
+
       types = all_exams_types_by_token(token)
       types_json = []
       types.each do |type|
@@ -112,6 +114,8 @@ class Queries
                             limit 1;
                           ")
     info = query_info.first
+    return nil if info.nil?
+
     types = all_exams_types_by_token(token)
     types_json = []
     types.each do |type|

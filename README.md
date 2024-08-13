@@ -8,14 +8,10 @@ You can see more about install docker [here](https://docs.docker.com/engine/inst
 
 Once you have docker installed, you can run the follow command on the project's root folder:
 
+Note: If you have any version of docker compose older than 2.0, you must run the command with docker-compose
+
 ```bash
 docker compose up -d --build
-```
-
-or if it gives an syntax error:
-
-```bash
-docker-compose up -d --build
 ```
 
 At this point you may be able to access the database from any database manager, such as [dbeaver](https://dbeaver.io/download/) setting the configuration displayed in the docker-compose.yml file.
@@ -36,10 +32,6 @@ Note: The scripts use the gem 'pg' that uses some libs from the postgreSQL clien
 
 ```bash
 docker compose run --rm test_runner
-```
-or
-```bash
-docker-compose run --rm test_runner
 ```
 
 In any of the two first ones, you can now run the commands listed below
@@ -358,20 +350,28 @@ The project has a container for tests, cause it install several libs for postgre
 To run the terminal for the rspec command, you must simply run the container with the command:
 
 ```bash
-docker-compose run --rm test_runner
-```
-or
-```bash
-docker compose run --rm test_runner
+docker-compose run --rm test_runner rspec
 ```
 
-and then, run:
+To test just the cypress for navigation, you can run:
 
 ```bash
-rspec
+docker compose run --rm cypress_test
 ```
+
+With the command bellow you can test both rspec for backend and cypress for frontend navigation. (Recommended for just test all application at once, not for development)
+
+```bash
+bin/test
+```
+
+Maybe you will have to run first:
+
+```bash
+chmod +x bin/bash
+```
+
 Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
-
 
 
 

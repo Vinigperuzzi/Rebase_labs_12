@@ -1,5 +1,5 @@
-const host_port = 'http://localhost:3000'
-const exam_details = `${host_port}/tests/`;
+let host_port = 'http://localhost:3000'
+let exam_details = `${host_port}/tests/`;
 
 function format_date(date){
   let [year, month, day] = date.split('-')
@@ -70,6 +70,10 @@ async function append_person(token){
   let url = `${exam_details}${token}`;
   let response = await fetch(url);
   let info = await response.json();
+  if(!info){
+    document.querySelector('.exams-list').innerHTML = `<p>Não existe exame com Token ${token}</p>`;
+    return;
+  }
   let card = `
     <div class="card mt-5 bg-dark">
       <div class="card-body bg-dark text-light">
@@ -89,8 +93,14 @@ async function main() {
   try {
     await append_person(token);
   } catch (error) {
-    let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
-    document.querySelector('.exams-list').innerHTML = message;
+    try {
+      host_port = 'http://app:3000'
+      exam_details = `${host_port}/tests/`;
+      await append_person(token);
+    } catch {
+      let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
+      document.querySelector('.exams-list').innerHTML = message;
+    }
   }
 }
 
