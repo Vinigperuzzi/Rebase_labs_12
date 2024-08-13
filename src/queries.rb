@@ -61,7 +61,7 @@ class Queries
   end
 
   def tests
-    tokens_query = @conn.exec("SELECT token FROM exams GROUP BY token ORDER BY token")
+    tokens_query = @conn.exec('SELECT token FROM exams GROUP BY token ORDER BY token')
     tokens = []
     tokens_query.each do |token|
       tokens << token['token']
@@ -122,7 +122,7 @@ class Queries
       }
       types_json << type_json
     end
-    json = {
+    {
       result_token: info['token'],
       result_date: info['exam_date'],
       cpf: info['cpf'],

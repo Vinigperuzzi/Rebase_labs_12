@@ -4,6 +4,7 @@ const all_cpf_info = `${host_port}/all_cpf_info/`;
 const all_cpf_tokens = `${host_port}/all_cpf_tokens/`;
 const all_token_info = `${host_port}/all_token_info/`;
 const all_types_info = `${host_port}/all_token_types/`;
+const exam_details = `${host_port}/exams/`;
 
 function format_date(date){
   let [year, month, day] = date.split('-')
@@ -59,7 +60,7 @@ async function append_exams(cpf){
             <table class="table table-hover">
               ${await append_table(token)}
             </table>
-            <button href="#" type="button" class="btn btn-outline-dark">Detalhes</button>
+            <a href="${exam_details}${token}" class="btn btn-outline-dark">Detalhes</a>
           </div>
         </div>
       </div>
@@ -99,8 +100,13 @@ async function append_people(cpfs_list){
 }
 
 async function main() {
-  cpfs_list = await get_cpfs();
-  append_people(cpfs_list);
+  try {
+    cpfs_list = await get_cpfs();
+    await append_people(cpfs_list);
+  } catch (error) {
+    let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
+    document.querySelector('.exams-list').innerHTML = message;
+  }
 }
 
 main();

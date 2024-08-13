@@ -172,7 +172,7 @@ RSpec.describe Queries do
     expect(data[0][:tests][1][:type]).to eq 'leucócitos'
     expect(data[0][:tests][1][:limits]).to eq '9-61'
     expect(data[0][:tests][1][:result]).to eq '91'
-    
+
     expect(data[0][:tests][2][:type]).to eq 'plaquetas'
     expect(data[0][:tests][2][:limits]).to eq '11-93'
     expect(data[0][:tests][2][:result]).to eq '18'
@@ -240,7 +240,7 @@ RSpec.describe Queries do
     expect(data[:tests][1][:type]).to eq 'leucócitos'
     expect(data[:tests][1][:limits]).to eq '9-61'
     expect(data[:tests][1][:result]).to eq '91'
-    
+
     expect(data[:tests][2][:type]).to eq 'plaquetas'
     expect(data[:tests][2][:limits]).to eq '11-93'
     expect(data[:tests][2][:result]).to eq '18'

@@ -1,4 +1,5 @@
 require 'csv'
+require 'erb'
 require 'pg'
 require 'rack/handler/puma'
 require 'sinatra'
@@ -32,26 +33,38 @@ get '/exams' do
   end
 end
 
-get '/test' do
-  content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
-  cpfs = dql.cpf_all
-  tokens_list = []
-  cpfs.each do |cpf|
-    tokens = dql.all_tokens_by_cpf(cpf)
-    tokens.each do |token|
-      tokens_list << token
-    end
+get '/exams/:token' do
+  token = params[:token]
+  content_type :html
+
+  html_path = './public/views/exams_details.html.erb'
+
+  if File.exist?(html_path)
+    template = File.read(html_path)
+    erb_template = ERB.new(template)
+
+    erb_template.result(binding)
+  else
+    status 404
+    'Arquivo não encontrado'
   end
-  all_types = []
-  tokens_list.each do |token|
-    types = dql.all_exams_types_by_token(token)
-    types.each do |type|
-      all_types << type
-    end
+end
+
+get '/exams-dark/:token' do
+  token = params[:token]
+  content_type :html
+
+  html_path = './public/views/exams_details_dark.html.erb'
+
+  if File.exist?(html_path)
+    template = File.read(html_path)
+    erb_template = ERB.new(template)
+
+    erb_template.result(binding)
+  else
+    status 404
+    'Arquivo não encontrado'
   end
-  all_types.to_json
 end
 
 get '/all_cpfs' do
@@ -108,12 +121,12 @@ get '/tests' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
-  dql.tests().to_json
+  dql.tests.to_json
 rescue StandardError
   'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
 end
 
-get '/test/:token' do
+get '/tests/:token' do
   content_type :json
   scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
