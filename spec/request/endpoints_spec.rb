@@ -47,7 +47,7 @@ describe 'GET endpoints' do
   end
 
   context 'GET /all_cpf_tokens/048.973.170-88' do
-    it 'returns all tokens for the specified cpf' do
+    it 'and returns all tokens for the specified cpf' do
       db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -62,10 +62,21 @@ describe 'GET endpoints' do
       expect(tokens[3]).to eq 'IQCZ04'
       expect(tokens[4]).to eq 'IQCZ05'
     end
+
+    it "and there's is no cpf match" do
+      db = ManipulateDB.new(csv_file: './spec/support/five_token_same_cpf.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_cpf_tokens/000.000.000-00'
+
+      tokens = JSON.parse(last_response.body)
+      expect(tokens).to eq []
+    end
   end
 
-  context 'GET /all_token_types/IQCZ17' do
-    it 'returns all types for the specified cpf' do
+  context 'GET /all_token_types/token' do
+    it 'returns all types for the specified token' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -125,6 +136,17 @@ describe 'GET endpoints' do
       expect(types[12]['exam_type']).to eq 'ácido úrico'
       expect(types[12]['exam_type_limits']).to eq '15-61'
       expect(types[12]['exam_type_value']).to eq '2'
+    end
+
+    it 'returns all types for the specified token' do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_token_types/000000'
+
+      types = JSON.parse(last_response.body)
+      expect(types).to eq []
     end
   end
 
