@@ -76,7 +76,7 @@ describe 'GET endpoints' do
   end
 
   context 'GET /all_token_types/token' do
-    it 'returns all types for the specified token' do
+    it 'and returns all types for the specified token' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
       db.populate_db
@@ -150,7 +150,18 @@ describe 'GET endpoints' do
     end
   end
 
-  context 'GET /all_token_info/IQCZ17' do
+  context 'GET /all_token_info/token' do
+    it "and there's no token match" do
+      db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/all_token_info/000000'
+
+      info = JSON.parse(last_response.body)
+      expect(info.nil?).to be true
+    end
+
     it 'returns all information about an exam' do
       db = ManipulateDB.new(csv_file: './spec/support/exam_with_13_types.csv', config_file: './config/db.config',
                             scope: 'test')
