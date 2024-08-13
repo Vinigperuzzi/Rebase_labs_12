@@ -5,7 +5,7 @@ let all_cpf_info = `${host_port}/all_cpf_info/`;
 let all_cpf_tokens = `${host_port}/all_cpf_tokens/`;
 let all_token_info = `${host_port}/all_token_info/`;
 let all_types_info = `${host_port}/all_token_types/`;
-let exam_details = `${host_port}/exams/`;
+let exam_details = `${host_port}/exams-dark/`;
 
 function format_date(date){
   let [year, month, day] = date.split('-')

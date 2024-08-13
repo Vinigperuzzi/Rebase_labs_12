@@ -69,11 +69,11 @@ async function append_exam(info){
 async function append_person(token){
   let url = `${exam_details}${token}`;
   let response = await fetch(url);
-  if(response){
+  let info = await response.json();
+  if(!info){
     document.querySelector('.exams-list').innerHTML = `<p>Não existe exame com Token ${token}</p>`;
     return;
   }
-  let info = await response.json();
   let card = `
     <div class="card mt-5 bg-dark">
       <div class="card-body bg-dark text-light">
