@@ -41,4 +41,16 @@ describe('Visits exams list', () => {
     });
     cy.contains('Não existe exame com Token 000000');
   });
+
+  it('And let blank field', () => {
+    cy.intercept('GET', '/exams/*').as('redirect');
+
+    cy.visit('/exams');
+
+    cy.get('#search-button').click();
+    cy.wait('@redirect').then((interception) => {
+      expect(interception.request.url).to.include('/exams/0');
+    });
+    cy.contains('Não existe exame com Token 0');
+  });
 });
