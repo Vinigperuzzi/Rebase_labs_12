@@ -165,4 +165,61 @@ describe 'GET endpoints' do
       expect(info['state']).to eq 'Alagoas'
     end
   end
+
+  context 'GET /tests' do
+    it 'returns info of all tests' do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/tests'
+
+      info = JSON.parse(last_response.body)
+      expect(info.length).to eq 3
+      expect(info[0]['result_token']).to eq '0W9I67'
+      expect(info[0]['result_date']).to eq '2021-07-09'
+      expect(info[0]['cpf']).to eq '048.108.026-04'
+      expect(info[0]['name']).to eq 'Juliana dos Reis Filho'
+      expect(info[0]['email']).to eq 'mariana_crist@kutch-torp.com'
+      expect(info[0]['birthday']).to eq '1995-07-03'
+      expect(info[0]['doctor']['crm']).to eq 'B0002IQM66'
+      expect(info[0]['doctor']['crm_state']).to eq 'SC'
+      expect(info[0]['doctor']['name']).to eq 'Maria Helena Ramalho'
+      expect(info[0]['tests'][0]['type']).to eq 'hemácias'
+      expect(info[0]['tests'][0]['limits']).to eq '45-52'
+      expect(info[0]['tests'][0]['result']).to eq '28'
+
+      expect(info[0]['tests'][1]['type']).to eq 'leucócitos'
+      expect(info[0]['tests'][1]['limits']).to eq '9-61'
+      expect(info[0]['tests'][1]['result']).to eq '91'
+    end
+  end
+
+  context 'GET /tests/token' do
+    it 'returns info of all tests' do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      get '/tests/0W9I67'
+
+      info = JSON.parse(last_response.body)
+      expect(info['result_token']).to eq '0W9I67'
+      expect(info['result_date']).to eq '2021-07-09'
+      expect(info['cpf']).to eq '048.108.026-04'
+      expect(info['name']).to eq 'Juliana dos Reis Filho'
+      expect(info['email']).to eq 'mariana_crist@kutch-torp.com'
+      expect(info['birthday']).to eq '1995-07-03'
+      expect(info['doctor']['crm']).to eq 'B0002IQM66'
+      expect(info['doctor']['crm_state']).to eq 'SC'
+      expect(info['doctor']['name']).to eq 'Maria Helena Ramalho'
+      expect(info['tests'][0]['type']).to eq 'hemácias'
+      expect(info['tests'][0]['limits']).to eq '45-52'
+      expect(info['tests'][0]['result']).to eq '28'
+
+      expect(info['tests'][1]['type']).to eq 'leucócitos'
+      expect(info['tests'][1]['limits']).to eq '9-61'
+      expect(info['tests'][1]['result']).to eq '91'
+    end
+  end
 end
