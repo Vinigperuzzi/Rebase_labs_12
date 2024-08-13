@@ -13,7 +13,31 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'rspec'
+require 'capybara'
+require 'capybara/rspec'
+require 'selenium-webdriver'
+
+Capybara.register_driver :selenium do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.javascript_driver = :selenium
+Capybara.default_driver = :selenium
+
 RSpec.configure do |config|
+  config.before(:each) do
+    Capybara.current_driver = :selenium
+  end
+
+  config.after(:each) do
+    Capybara.use_default_driver
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
