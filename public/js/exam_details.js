@@ -1,5 +1,5 @@
-const host_port = 'http://localhost:3000'
-const exam_details = `${host_port}/tests/`;
+let host_port = 'http://localhost:3000'
+let exam_details = `${host_port}/tests/`;
 
 function format_date(date){
   let [year, month, day] = date.split('-')
@@ -89,8 +89,14 @@ async function main() {
   try {
     await append_person(token);
   } catch (error) {
-    let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
-    document.querySelector('.exams-list').innerHTML = message;
+    try {
+      host_port = 'http://app:3000'
+      exam_details = `${host_port}/tests/`;
+      await append_person(token);
+    } catch {
+      let message = "<p style='color: #ba1234'>Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.</p>";
+      document.querySelector('.exams-list').innerHTML = message;
+    }
   }
 }
 
