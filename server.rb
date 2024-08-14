@@ -90,7 +90,7 @@ end
 
 get '/all_cpfs' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   cpfs = dql.cpf_all
   cpfs_list = []
@@ -102,7 +102,7 @@ end
 
 get '/all_cpf_tokens/:cpf' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   tokens = dql.all_tokens_by_cpf(params[:cpf])
   token_list = []
@@ -114,21 +114,21 @@ end
 
 get '/all_token_info/:token' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   dql.all_info_by_token(params[:token]).to_json
 end
 
 get '/all_cpf_info/:cpf' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   dql.all_info_by_cpf(params[:cpf]).to_json
 end
 
 get '/all_token_types/:token' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   types = dql.all_exams_types_by_token(params[:token])
   all_types = []
@@ -140,7 +140,7 @@ end
 
 get '/tests' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   dql.tests.to_json
 rescue StandardError
@@ -149,7 +149,7 @@ end
 
 get '/tests/:token' do
   content_type :json
-  scope = ENV['RACK_ENV'] == 'test' ? 'test' : 'container'
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   data = dql.test(params[:token]).to_json
   return nil if data.nil?
@@ -160,6 +160,7 @@ end
 post '/import' do
   if params[:file] && params[:file][:tempfile]
     file_path = params[:file][:tempfile].path
+    scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
     db = ManipulateDB.new(csv_file: file_path, config_file: './config/db.config', scope: 'container')
     db.populate_add_db
     status 202
@@ -177,7 +178,8 @@ get '/sidekiq' do
 end
 
 post '/populate_test_db' do
-  db = ManipulateDB.new(csv_file: './public/csv/data2.csv', config_file: './config/db.config', scope: 'test')
+  data = params['file_data']
+  db = ManipulateDB.new(csv_file: data, config_file: './config/db.config', scope: 'test')
   db.populate_db
   status 200
 end
