@@ -28,6 +28,11 @@ Sidekiq.configure_client do |config|
   config.redis = { url: 'redis://redis:6379/1' }
 end
 
+def initializa_queries(params)
+  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
+  Queries.new(config_file: './config/db.config', scope: scope)
+end
+
 get '/exams-dark' do
   content_type :html
 
@@ -90,8 +95,7 @@ end
 
 get '/all_cpfs' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   cpfs = dql.cpf_all
   cpfs_list = []
   cpfs.each do |cpf|
@@ -102,8 +106,7 @@ end
 
 get '/all_cpf_tokens/:cpf' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   tokens = dql.all_tokens_by_cpf(params[:cpf])
   token_list = []
   tokens.each do |token|
@@ -114,22 +117,19 @@ end
 
 get '/all_token_info/:token' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   dql.all_info_by_token(params[:token]).to_json
 end
 
 get '/all_cpf_info/:cpf' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   dql.all_info_by_cpf(params[:cpf]).to_json
 end
 
 get '/all_token_types/:token' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   types = dql.all_exams_types_by_token(params[:token])
   all_types = []
   types.each do |type|
@@ -140,8 +140,7 @@ end
 
 get '/tests' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   dql.tests.to_json
 rescue StandardError
   'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
@@ -149,8 +148,7 @@ end
 
 get '/tests/:token' do
   content_type :json
-  scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-  dql = Queries.new(config_file: './config/db.config', scope: scope)
+  dql = initializa_queries(params)
   data = dql.test(params[:token]).to_json
   return nil if data.nil?
 
