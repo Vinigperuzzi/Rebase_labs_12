@@ -21,6 +21,11 @@ services:
     ports:
       - "5433:5432"
 
+  redis:
+    image: redis:6.0.9
+    ports:
+      - "6379:6379"
+
   app:
     build: .
     volumes:
@@ -29,6 +34,19 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - redis
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/app
+    depends_on:
+      - app
+      - redis
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgres://rebase_labs:labs_123@db:5432/labs_db
 
   test_runner:
     build:

@@ -5,7 +5,28 @@ require 'rack/handler/puma'
 require 'sinatra'
 require 'yaml'
 require 'json'
+#require 'sidekiq/web'
+#require 'sidekiq/api'
+require 'rack-protection'
+require './lib/workers/csv_import_worker'
 require_relative './src/queries'
+require_relative './src/manipulate_db'
+
+secret_key = SecureRandom.hex(64)
+configure do
+  set :session_token, SecureRandom.hex(64)
+end
+
+use Rack::Session::Cookie, secret: settings.session_token
+use Rack::Protection, except: :http_origin
+
+Sidekiq.configure_server do |config|
+  config.redis = { url: 'redis://redis:6379/1' }
+end
+
+Sidekiq.configure_client do |config|
+  config.redis = { url: 'redis://redis:6379/1' }
+end
 
 get '/exams-dark' do
   content_type :html
@@ -136,8 +157,23 @@ get '/tests/:token' do
   data
 end
 
+post '/import' do
+  if params[:file] && params[:file][:tempfile]
+    file_path = params[:file][:tempfile].path
+    db = ManipulateDB.new(csv_file: file_path, config_file: './config/db.config', scope: 'container')
+    db.populate_db
+    status 202
+  else
+    status 400
+  end
+end
+
 get '/hello' do
   'Hello world!'
+end
+
+get '/sidekiq' do
+  run Sidekiq::Web
 end
 
 unless ENV['RACK_ENV'] == 'test'
