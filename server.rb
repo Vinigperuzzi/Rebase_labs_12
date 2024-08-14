@@ -161,7 +161,7 @@ post '/import' do
   if params[:file] && params[:file][:tempfile]
     file_path = params[:file][:tempfile].path
     db = ManipulateDB.new(csv_file: file_path, config_file: './config/db.config', scope: 'container')
-    db.populate_db
+    db.populate_add_db
     status 202
   else
     status 400
