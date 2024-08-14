@@ -5,8 +5,8 @@ require 'rack/handler/puma'
 require 'sinatra'
 require 'yaml'
 require 'json'
-#require 'sidekiq/web'
-#require 'sidekiq/api'
+require 'sidekiq/web'
+require 'sidekiq/api'
 require 'rack-protection'
 require './lib/workers/csv_import_worker'
 require_relative './src/queries'
@@ -153,7 +153,7 @@ get '/tests/:token' do
   dql = Queries.new(config_file: './config/db.config', scope: scope)
   data = dql.test(params[:token]).to_json
   return nil if data.nil?
-  
+
   data
 end
 

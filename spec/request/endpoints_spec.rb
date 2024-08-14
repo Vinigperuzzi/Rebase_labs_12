@@ -274,7 +274,7 @@ describe 'GET endpoints' do
       get '/tests/000000'
 
       info = JSON.parse(last_response.body)
-      expect(info.nil?).to be true 
+      expect(info.nil?).to be true
     end
   end
 end
