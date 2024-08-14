@@ -176,6 +176,18 @@ get '/sidekiq' do
   run Sidekiq::Web
 end
 
+post '/populate_test_db' do
+  db = ManipulateDB.new(csv_file: './public/csv/data2.csv', config_file: './config/db.config', scope: 'test')
+  db.populate_db
+  status 200
+end
+
+post '/drop_test_db' do
+  db = ManipulateDB.new(csv_file: './public/csv/data2.csv', config_file: './config/db.config', scope: 'test')
+  db.drop_exams
+  status 200
+end
+
 unless ENV['RACK_ENV'] == 'test'
   Rack::Handler::Puma.run(
     Sinatra::Application,
