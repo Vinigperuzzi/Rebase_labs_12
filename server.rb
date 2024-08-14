@@ -159,7 +159,7 @@ post '/import' do
   if params[:file] && params[:file][:tempfile]
     file_path = params[:file][:tempfile].path
     scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-    db = ManipulateDB.new(csv_file: file_path, config_file: './config/db.config', scope: 'container')
+    db = ManipulateDB.new(csv_file: file_path, config_file: './config/db.config', scope: scope)
     db.populate_add_db
     status 202
   else

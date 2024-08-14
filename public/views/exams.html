@@ -19,10 +19,10 @@
       </div>
       
       <div class="d-flex justify-content-between mb-3">
-        <form class="w-50 p-2">
+        <form class="w-50 p-2" onsubmit="render_exam(); return false;">
           <div class="mb-3">
             <label for="token" class="form-label">Token do Exame</label>
-            <input type="email" class="form-control" id="token">
+            <input type="search" class="form-control" id="token">
           </div>
           <div type="submit" class="btn btn-outline-dark" id="search-button" onclick="render_exam()">Buscar</div>
         </form>
