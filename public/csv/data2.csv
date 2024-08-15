@@ -1,0 +1,40 @@
+cpf;nome paciente;email paciente;data nascimento paciente;endereço/rua paciente;cidade paciente;estado patiente;crm médico;crm médico estado;nome médico;email médico;token resultado exame;data exame;tipo exame;limites tipo exame;resultado tipo exame
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;hemácias;45-52;50
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;leucócitos;9-61;30
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;plaquetas;11-93;50
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;hdl;19-75;36
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;ldl;45-54;50
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;vldl;48-72;65
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;glicemia;25-83;65
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;tgo;50-84;52
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;tgp;38-63;55
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;eletrólitos;2-68;34
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;tsh;25-80;46
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;t4-livre;34-60;62
+458.789.223-45;Vinícius Garcia Peruzzi;vinisinatra@ruby.com;1992-10-17;789 Flores da Cunha;Pelotas;Rio Grande Do Sul;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;212121;2021-08-05;ácido úrico;15-61;13
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;hemácias;45-52;66
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;leucócitos;9-61;80
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;plaquetas;11-93;93
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;hdl;19-75;62
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;ldl;45-54;11
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;vldl;48-72;84
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;glicemia;25-83;27
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;tgo;50-84;77
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;tgp;38-63;70
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;eletrólitos;2-68;49
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;tsh;25-80;17
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;t4-livre;34-60;0
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ8TIA;PR;Ana Sophia Aparício Neto;corene.hane@pagac.io;4NFEXQ;2021-05-24;ácido úrico;15-61;35
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;hemácias;45-52;4
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;leucócitos;9-61;9
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;plaquetas;11-93;59
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;hdl;19-75;3
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;ldl;45-54;36
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;vldl;48-72;31
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;glicemia;25-83;28
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;tgo;50-84;61
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;tgp;38-63;98
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;eletrólitos;2-68;23
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;tsh;25-80;9
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;t4-livre;34-60;99
+002.678.897-71;Agatha Pedroso;alberto@bernhard.com;1966-01-06;360 Marginal Leonardo;Urucará;Rondônia;B000BJ20J4;PI;Maria Luiza Pires;denna@wisozk.biz;894E9@;2021-05-08;ácido úrico;15-61;85

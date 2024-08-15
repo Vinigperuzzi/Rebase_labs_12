@@ -14,49 +14,61 @@ Note: If you have any version of docker compose older than 2.0, you must run the
 docker compose up -d --build
 ```
 
+You can also control the containers with the bash running the commands for start and stop application:
+
+```bash
+bin/start
+bin/stop
+```
+
+Note: maybe you'll have to give exec permission with(don't worry, is just the docker command):
+
+```bash
+chmod +x bin/start
+chmod +x bin/stop
+```
+
 At this point you may be able to access the database from any database manager, such as [dbeaver](https://dbeaver.io/download/) setting the configuration displayed in the docker-compose.yml file.
 Note: this project is academic, i have conscience that if it goes to production, those sensible information could not be displayed as it is now, it will be in a config file that wouldn't be commited to GitHub.
-As well, now you may be able to open the server with your browser in [localhost:3000](http://localhost:3000/tests).
+Anyway, now you may be able to open the server with your browser in [localhost:3000](http://localhost:3000/tests).
 
 ##### Manipulating database
 
 With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby.
 Note: The scripts use the gem 'pg' that uses some libs from the postgreSQL client, here you have three options to run the scripts:
 
-- You can install postresqg client if you already haven't.
-- You can install just the libs for postgre with the command:
-```bash
-  sudo apt install libpq-dev
-```
-- You can use an docker container already configured with these configuration, so you can run a bash with these dependencies, with the command:
+- (RECOMENDED) You can use a docker container already configured with those configurations, so you can run a bash with these dependencie fullfilled, with the command:
 
 ```bash
 docker compose run --rm test_runner
 ```
-
-In any of the two first ones, you can now run the commands listed below
-
-```bash
-  ruby lib/populate_db.rb
-```
-
-Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
-
-
-```bash
-  ruby lib/drop_exams.rb
-```
-
-Which will drop all the information from the table exams and then drop the table exams.
 
 In case you run inside the container bash, the commands may differ a bit, cause of the different network that is being used to connection, localhost or docker bridge. The commands are:
 
 ```bash
   ruby lib/populate_db_container.rb
 ```
-and
+Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
+
 ```bash
   ruby lib/drop_exams_container.rb
+```
+Which will drop all the information from the table exams and then drop the table exams.
+
+- Otherwise, you can install postresql client if you already haven't, or
+- You can install just the libs for postgre with the command below;
+```bash
+  sudo apt install libpq-dev
+```
+
+In this case, you can now run the commands listed below
+
+```bash
+  ruby lib/populate_db.rb
+```
+
+```bash
+  ruby lib/drop_exams.rb
 ```
 
 ### Endpoints
@@ -343,9 +355,105 @@ Response example:
 
 ```
 
+##### /tests/:token
+Show all the relevant data for a list of tokens. It's the json model specified in the snippet.
+
+Response example:
+
+```json
+{
+   "result_token":"T9O6AI",
+   "result_date":"2021-11-21",
+   "cpf":"066.126.400-90",
+   "name":"Matheus Barroso",
+   "email":"maricela@streich.com",
+   "birthday":"1972-03-09",
+   "doctor": {
+      "crm":"B000B7CDX4",
+      "crm_state":"SP",
+      "name":"Sra. Calebe Louzada"
+   },
+   "tests":[
+      {
+         "type":"hemácias",
+         "limits":"45-52",
+         "result":"48"
+      },
+      {
+         "type":"leucócitos",
+         "limits":"9-61",
+         "result":"75"
+      },
+      {
+         "test_type":"plaquetas",
+         "test_limits":"11-93",
+         "result":"67"
+      },
+      {
+         "test_type":"hdl",
+         "test_limits":"19-75",
+         "result":"3"
+      },
+      {
+         "test_type":"ldl",
+         "test_limits":"45-54",
+         "result":"27"
+      },
+      {
+         "test_type":"vldl",
+         "test_limits":"48-72",
+         "result":"27"
+      },
+      {
+         "test_type":"glicemia",
+         "test_limits":"25-83",
+         "result":"78"
+      },
+      {
+         "test_type":"tgo",
+         "test_limits":"50-84",
+         "result":"15"
+      },
+      {
+         "test_type":"tgp",
+         "test_limits":"38-63",
+         "result":"34"
+      },
+      {
+         "test_type":"eletrólitos",
+         "test_limits":"2-68",
+         "result":"92"
+      },
+      {
+         "test_type":"tsh",
+         "test_limits":"25-80",
+         "result":"21"
+      },
+      {
+         "test_type":"t4-livre",
+         "test_limits":"34-60",
+         "result":"95"
+      },
+      {
+         "test_type":"ácido úrico",
+         "test_limits":"15-61",
+         "result":"10"
+      }
+   ]
+}
+
+```
+
+### HTML for asynchronous queue
+
+The project has one container to run redis, that enqueue the jobs, and another to run sidekiq to execute those jobs in background. The sidekiq already came with an route to show the queues, jobs and processes.
+With all container running, all you must do is access the route for it in localhost:3000/sidekiq
+
+Note: if the page asks for user and password, is: admin senha123.
+
 
 ### How to test application
-The project has a container for tests, cause it install several libs for postgre connection, and it must be encapsulated in container.
+The project has a container for tests, because it install several libs for postgre connection, and it must be encapsulated in container.
 
 To run the terminal for the rspec command, you must simply run the container with the command:
 
@@ -365,22 +473,24 @@ With the command bellow you can test both rspec for backend and cypress for fron
 bin/test
 ```
 
-Maybe you will have to run first:
+If permissions error occur, you may run the command below (don't worry, is just the two docker commands above):
 
 ```bash
 chmod +x bin/bash
 ```
 
-Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before.
+Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before. The same applies for the server in systems tests.
 
 
 
 
 ### For rebase people:
 
-About containers: I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
+##### About containers:
+I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
 The fourth container is the container for tests (and manipulation of database). I create it because of the dependencies and principally to run the server encapsulated inside the container, not exposing the port 3000, avoiding the duplicate error for puma server. Also, i can set an environment variable to indicated that the db that may be used is the one from tests, protecting the development DB, making possible to use the application while running tests.
 The container for tests, despite being in the docker-compose.yml, does not run with the compose up command, just with the run, specifying the service.
 
 
-About exam view: I did implemented the requested endpoint such as listed in feature 2, but the text seemed to suggest that the view must be the json required in the feature, but in a html friendly view. I misread it, and i get the idea that i should display all information in a more friendly view, so i took the liberty of implementing more endpoints an as well a more refined view using pure javascript. Actually, when i first read it, i draw the layout in my head and couldn't look other way, since the layout was not specified and the term let it open to interpretation.
+##### About exam view:
+I did implemented the requested endpoint such as listed in feature 2, but the text seemed to suggest that the view must be the json required in the feature, but in a html friendly view. I misread it, and i get the idea that i should display all information in a more friendly view, so i took the liberty of implementing more endpoints an as well a more refined view using pure javascript. Actually, when i first read it, i draw the layout in my head and couldn't look other way, since the layout was not specified and the term let it open to interpretation.

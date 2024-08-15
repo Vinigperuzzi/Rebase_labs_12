@@ -1,11 +1,24 @@
 describe('Visits exams details', () => {
+
+  beforeEach(() => {
+    cy.request('POST', `/populate_test_db?file_data=./public/csv/data2.csv`);
+    cy.intercept('*', (req) => {
+      if (req.url.includes('?')) {
+        req.url = `${req.url}&cypress_test=true`;
+      } else {
+        req.url = `${req.url}?cypress_test=true`;
+      }
+      req.continue();
+    });
+  });
+
   it('And shows detailed info about the exame specified by token', () => {
-    cy.visit('/exams/4NFEXP');
+    cy.visit('/exams/4NFEXQ');
 
     cy.contains('Agatha Pedroso');
     cy.contains('CPF: 002.678.897-71');
     cy.contains('Data de nascimento: 06/01/1966 | E-mail: alberto@bernhard.com');
-    cy.contains('Exame 4NFEXP - 24/05/2021');
+    cy.contains('Exame 4NFEXQ - 24/05/2021');
     cy.contains('Médico(a): Ana Sophia Aparício Neto | CRM: B000BJ8TIA - PR');
     cy.contains('hemácias 45-52 66 Acima');
     cy.contains('leucócitos 9-61 80 Acima');
@@ -23,12 +36,16 @@ describe('Visits exams details', () => {
   });
 
   it('And cannot access the database', () => {
-    cy.visit('/exams/4NFEXP', {
+    cy.visit('/exams/4NFEXQ', {
       onLoad: (win) => {
         cy.stub(win, 'append_person').throws(new Error('Simulated Error'));
       }
     });
 
     cy.contains('Ocorreu um erro e não foi possível conectar ao banco de dados, contate o gerenciador de banco de dados.');
+  });
+
+  afterEach(() => {
+    cy.request('POST', '/drop_test_db');
   });
 });

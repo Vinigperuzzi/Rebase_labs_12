@@ -21,6 +21,13 @@ services:
     ports:
       - "5433:5432"
 
+  redis:
+    image: redis:6.2.11
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=senha123
+
   app:
     build: .
     volumes:
@@ -29,6 +36,23 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - redis
+    environment:
+      - SIDEKIQ_WEB_USERNAME=admin
+      - SIDEKIQ_WEB_PASSWORD=senha123
+      - RACK_ENV=development
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -r ./lib/workers/csv_import_worker.rb
+    volumes:
+      - .:/app
+    depends_on:
+      - app
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgres://rebase_labs:labs_123@db:5432/labs_db
 
   test_runner:
     build:
