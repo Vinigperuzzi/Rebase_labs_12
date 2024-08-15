@@ -23,12 +23,12 @@ end
 
 secret_token = SecureRandom.hex(64)
 
-use Rack::Session::Cookie, 
-  key: 'rack.session',
-  secret: "#{secret_token}",
-  same_site: true
+use Rack::Session::Cookie,
+    key: 'rack.session',
+    secret: secret_token.to_s,
+    same_site: true
 
-Sidekiq::Web.use Rack::Auth::Basic, "Protected Area" do |username, password|
+Sidekiq::Web.use Rack::Auth::Basic, 'Protected Area' do |username, password|
   username == ENV['SIDEKIQ_WEB_USERNAME'] && password == ENV['SIDEKIQ_WEB_PASSWORD']
 end
 
@@ -167,18 +167,6 @@ get '/tests/:token' do
   return nil if data.nil?
 
   data
-end
-
-post '/import3' do
-  if params[:file] && params[:file][:tempfile]
-    file_path = params[:file][:tempfile].path
-    scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-    db = ManipulateDB.new(csv_file: file_path, config_file: './config/db.config', scope: scope)
-    db.populate_add_db
-    status 202
-  else
-    status 400
-  end
 end
 
 post '/import' do

@@ -14,11 +14,18 @@ Note: If you have any version of docker compose older than 2.0, you must run the
 docker compose up -d --build
 ```
 
-You can also control the container with the bash running the commands for start and stop application:
+You can also control the containers with the bash running the commands for start and stop application:
 
 ```bash
 bin/start
 bin/stop
+```
+
+Note: maybe you'll have to give exec permission with(don't worry, is just the docker command):
+
+```bash
+chmod +x bin/start
+chmod +x bin/stop
 ```
 
 At this point you may be able to access the database from any database manager, such as [dbeaver](https://dbeaver.io/download/) setting the configuration displayed in the docker-compose.yml file.
@@ -30,40 +37,38 @@ Anyway, now you may be able to open the server with your browser in [localhost:3
 With the postgre server and the ruby server running, you may be able to manipulate the db via script ruby.
 Note: The scripts use the gem 'pg' that uses some libs from the postgreSQL client, here you have three options to run the scripts:
 
-- You can install postresqg client if you already haven't;
-- You can install just the libs for postgre with the command below;
-```bash
-  sudo apt install libpq-dev
-```
 - (RECOMENDED) You can use a docker container already configured with those configurations, so you can run a bash with these dependencie fullfilled, with the command:
 
 ```bash
 docker compose run --rm test_runner
 ```
 
-In any of the two first ones, you can now run the commands listed below
-
-```bash
-  ruby lib/populate_db.rb
-```
-
-Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
-
-
-```bash
-  ruby lib/drop_exams.rb
-```
-
-Which will drop all the information from the table exams and then drop the table exams.
-
 In case you run inside the container bash, the commands may differ a bit, cause of the different network that is being used to connection, localhost or docker bridge. The commands are:
 
 ```bash
   ruby lib/populate_db_container.rb
 ```
-and
+Which will create the exams table in labs_db database, in case it does not already exists, and will populate the databse with the data from csv file, removing any other information present in the database. It is a reset.
+
 ```bash
   ruby lib/drop_exams_container.rb
+```
+Which will drop all the information from the table exams and then drop the table exams.
+
+- Otherwise, you can install postresql client if you already haven't, or
+- You can install just the libs for postgre with the command below;
+```bash
+  sudo apt install libpq-dev
+```
+
+In this case, you can now run the commands listed below
+
+```bash
+  ruby lib/populate_db.rb
+```
+
+```bash
+  ruby lib/drop_exams.rb
 ```
 
 ### Endpoints
@@ -441,8 +446,8 @@ Response example:
 
 ### HTML for asynchronous queue
 
-The project has one container so run redis, that enqueue the jobs, and another to run sidekiq to execute those jobs in background. The sidekiq already came with an route to show the queues, jobs and processes.
-With all container running, all you must do is access the route for itc in localhost:3000/sidekiq
+The project has one container to run redis, that enqueue the jobs, and another to run sidekiq to execute those jobs in background. The sidekiq already came with an route to show the queues, jobs and processes.
+With all container running, all you must do is access the route for it in localhost:3000/sidekiq
 
 Note: if the page asks for user and password, is: admin senha123.
 
