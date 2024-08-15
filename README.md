@@ -14,6 +14,13 @@ Note: If you have any version of docker compose older than 2.0, you must run the
 docker compose up -d --build
 ```
 
+You can also control the container with the bash running the commands for start and stop application:
+
+```bash
+bin/start
+bin/stop
+```
+
 At this point you may be able to access the database from any database manager, such as [dbeaver](https://dbeaver.io/download/) setting the configuration displayed in the docker-compose.yml file.
 Note: this project is academic, i have conscience that if it goes to production, those sensible information could not be displayed as it is now, it will be in a config file that wouldn't be commited to GitHub.
 Anyway, now you may be able to open the server with your browser in [localhost:3000](http://localhost:3000/tests).
@@ -431,6 +438,13 @@ Response example:
 }
 
 ```
+
+### HTML for asynchronous queue
+
+The project has one container so run redis, that enqueue the jobs, and another to run sidekiq to execute those jobs in background. The sidekiq already came with an route to show the queues, jobs and processes.
+With all container running, all you must do is access the route for itc in localhost:3000/sidekiq
+
+Note: if the page asks for user and password, is: admin senha123.
 
 
 ### How to test application

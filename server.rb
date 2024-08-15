@@ -1,31 +1,45 @@
 require 'csv'
 require 'erb'
 require 'pg'
+require 'rack'
 require 'rack/handler/puma'
 require 'sinatra'
 require 'yaml'
 require 'json'
+require 'securerandom'
 require 'sidekiq/web'
-require 'sidekiq/api'
 require 'rack-protection'
 require './lib/workers/csv_import_worker'
 require_relative './src/queries'
 require_relative './src/manipulate_db'
 
-secret_key = SecureRandom.hex(64)
-configure do
-  set :session_token, SecureRandom.hex(64)
-end
-
-use Rack::Session::Cookie, secret: settings.session_token
-use Rack::Protection, except: :http_origin
-
 Sidekiq.configure_server do |config|
-  config.redis = { url: 'redis://redis:6379/1' }
+  config.redis = { url: 'redis://redis:6379/0' }
 end
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: 'redis://redis:6379/1' }
+  config.redis = { url: 'redis://redis:6379/0' }
+end
+
+secret_token = SecureRandom.hex(64)
+
+use Rack::Session::Cookie, 
+  key: 'rack.session',
+  secret: "#{secret_token}",
+  same_site: true
+
+Sidekiq::Web.use Rack::Auth::Basic, "Protected Area" do |username, password|
+  username == ENV['SIDEKIQ_WEB_USERNAME'] && password == ENV['SIDEKIQ_WEB_PASSWORD']
+end
+
+class SidekiqApp < Sinatra::Base
+  use Sidekiq::Web
+end
+
+use Rack::Builder do
+  map '/sidekiq' do
+    run Sidekiq::Web
+  end
 end
 
 def initializa_queries(params)
@@ -155,7 +169,7 @@ get '/tests/:token' do
   data
 end
 
-post '/import' do
+post '/import3' do
   if params[:file] && params[:file][:tempfile]
     file_path = params[:file][:tempfile].path
     scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
@@ -167,12 +181,22 @@ post '/import' do
   end
 end
 
-get '/hello' do
-  'Hello world!'
+post '/import' do
+  if params[:file] && params[:file][:tempfile]
+    file_path = params[:file][:tempfile].path
+    scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
+    CsvImportWorker.perform_async(file_path, './config/db.config', scope)
+
+    status 202
+    body 'Dados recebidos e enfileirados no servidor'
+  else
+    status 400
+    body 'Arquivo não encontrado'
+  end
 end
 
-get '/sidekiq' do
-  run Sidekiq::Web
+get '/hello' do
+  'Hello world!'
 end
 
 post '/populate_test_db' do
