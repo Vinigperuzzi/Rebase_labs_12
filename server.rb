@@ -1,5 +1,6 @@
 require 'csv'
 require 'erb'
+require 'fileutils'
 require 'pg'
 require 'rack'
 require 'rack/handler/puma'
@@ -183,9 +184,11 @@ end
 
 post '/import' do
   if params[:file] && params[:file][:tempfile]
-    file_path = params[:file][:tempfile].path
+    permanent_file_path = "./public/uploads/#{params:[:file][:filename]}"
+    FileUtils.mv(params[:file][:tempfile].path, permanent_file_path)
+
     scope = (ENV['RACK_ENV'] == 'test') || params[:cypress_test] ? 'test' : 'container'
-    CsvImportWorker.perform_async(file_path, './config/db.config', scope)
+    CsvImportWorker.perform_async(permanent_file_path, './config/db.config', scope)
 
     status 202
     body 'Dados recebidos e enfileirados no servidor'
