@@ -14,7 +14,7 @@ Note: If you have any version of docker compose older than 2.0, you must run the
 docker compose up -d --build
 ```
 
-You can also control the containers with the bash running the commands for start and stop application:
+If you are on unix based operational system, you can also control the containers with the bash running the commands for start and stop application:
 
 ```bash
 bin/start
