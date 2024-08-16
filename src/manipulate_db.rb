@@ -16,9 +16,6 @@ class ManipulateDB
       port: @db_config['port']
     )
   rescue StandardError
-    message = 'Impossível conectar ao banco de dados'
-    puts message
-    message
   end
 
   def populate_db
@@ -34,12 +31,6 @@ class ManipulateDB
     end
 
     table = @db_config['table1']
-
-    unless ENV['RACK_ENV'] == 'test'
-      puts '________________________________________________'
-      puts '|Criando a tabela Exams, caso ela já não exista|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
 
     conn.exec("CREATE TABLE IF NOT EXISTS #{table} ( \
               cpf varchar(20), \
@@ -61,19 +52,7 @@ class ManipulateDB
               PRIMARY KEY (cpf, token, exam_type) \
               );")
 
-    unless ENV['RACK_ENV'] == 'test'
-      puts '_______________________________________________'
-      puts '|Apagando os dados da tabelas exams do labs_db|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
-
     conn.exec("DELETE FROM #{table}")
-
-    unless ENV['RACK_ENV'] == 'test'
-      puts '_____________________________________________________'
-      puts '|Inserindo os dados do arquivo csv no banco de dados|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
 
     data.each do |row|
       conn.exec("INSERT INTO \
@@ -121,19 +100,7 @@ class ManipulateDB
     table = @db_config['table1']
     conn.exec("DELETE FROM #{table}")
 
-    unless ENV['RACK_ENV'] == 'test'
-      puts '________________________________________________'
-      puts '|Todos os dados foram removidos da tabela Exams|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
-
     conn.exec("DROP TABLE #{table}")
-
-    return if ENV['RACK_ENV'] == 'test'
-
-    puts '________________________________________'
-    puts '|Tabela exams exluída do bando de dados|'
-    puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
   end
 
   def populate_add_db
@@ -149,12 +116,6 @@ class ManipulateDB
     end
 
     table = @db_config['table1']
-
-    unless ENV['RACK_ENV'] == 'test'
-      puts '________________________________________________'
-      puts '|Criando a tabela Exams, caso ela já não exista|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
 
     conn.exec("CREATE TABLE IF NOT EXISTS #{table} ( \
               cpf varchar(20), \
@@ -176,12 +137,6 @@ class ManipulateDB
               PRIMARY KEY (cpf, token, exam_type) \
               );")
 
-    unless ENV['RACK_ENV'] == 'test'
-      puts '_____________________________________________________'
-      puts '|Inserindo os dados do arquivo csv no banco de dados|'
-      puts '¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨'
-    end
-
     data.each do |row|
       conn.exec("INSERT INTO \
                   #{table} ( \
@@ -202,7 +157,8 @@ class ManipulateDB
                     exam_type_limits, \
                     exam_type_value \
                   ) \
-                  VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
+                  VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) \
+                  ON CONFLICT DO NOTHING",
                 [
                   row['cpf'],
                   row['nome paciente'],

@@ -16,10 +16,6 @@ rescue StandardError
   exit!
 end
 
-after(:all) do
-  @conn.exec('DROP TABLE IF EXISTS exams')
-end
-
 describe 'GET /tests' do
   include Rack::Test::Methods
 
@@ -96,6 +92,8 @@ describe 'GET /tests' do
     expect(data[0]['tests'][12]['type']).to eq 'ácido úrico'
     expect(data[0]['tests'][12]['limits']).to eq '15-61'
     expect(data[0]['tests'][12]['result']).to eq '78'
+
+    db.drop_exams
   end
 
   it "and there's no data" do
@@ -107,5 +105,6 @@ describe 'GET /tests' do
 
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq 'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
+
   end
 end

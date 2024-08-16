@@ -54,9 +54,6 @@ get '/exams-dark' do
 
   if File.exist?(html_path)
     File.read(html_path)
-  else
-    status 404
-    'Arquivo não encontrado'
   end
 end
 
@@ -67,9 +64,6 @@ get '/exams' do
 
   if File.exist?(html_path)
     File.read(html_path)
-  else
-    status 404
-    'Arquivo não encontrado'
   end
 end
 
@@ -84,9 +78,6 @@ get '/exams/:token' do
     erb_template = ERB.new(template)
 
     erb_template.result(binding)
-  else
-    status 404
-    'Arquivo não encontrado'
   end
 end
 
@@ -101,9 +92,6 @@ get '/exams-dark/:token' do
     erb_template = ERB.new(template)
 
     erb_template.result(binding)
-  else
-    status 404
-    'Arquivo não encontrado'
   end
 end
 

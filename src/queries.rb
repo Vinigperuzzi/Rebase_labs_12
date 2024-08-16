@@ -9,7 +9,6 @@ class Queries
   def initialize(config_file:, scope:)
     connect_to_db(config_file, scope)
   rescue StandardError
-    'Impossível conectar ao banco de dados'
   end
 
   def cpf_all
