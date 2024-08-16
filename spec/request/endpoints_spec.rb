@@ -396,8 +396,8 @@ describe 'GET endpoints' do
     end
   end
 
-  context 'when a file is uploaded' do
-    it 'returns a 202 status and a confirmation message' do
+  context 'POST /import' do
+    it 'and returns a 202 status and a confirmation message' do
       file = Rack::Test::UploadedFile.new('./public/csv/data2.csv', 'text/csv')
 
       post '/import', { file: file }
@@ -407,8 +407,8 @@ describe 'GET endpoints' do
     end
   end
 
-  context 'when no file is uploaded' do
-    it 'returns a 400 status and an error message' do
+  context 'POST /import' do
+    it 'and returns a 400 status and an error message' do
       post '/import'
 
       expect(last_response.status).to eq(400)
