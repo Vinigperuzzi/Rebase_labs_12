@@ -40,7 +40,7 @@ Note: The scripts use the gem 'pg' that uses some libs from the postgreSQL clien
 - (RECOMENDED) You can use a docker container already configured with those configurations, so you can run a bash with these dependencie fullfilled, with the command:
 
 ```bash
-docker compose run --rm test_runner
+docker compose run --build --rm test_runner
 ```
 
 In case you run inside the container bash, the commands may differ a bit, cause of the different network that is being used to connection, localhost or docker bridge. The commands are:
