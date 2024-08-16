@@ -105,6 +105,5 @@ describe 'GET /tests' do
 
     expect(last_response.status).to eq(200)
     expect(last_response.body).to eq 'Não há dados a serem exibidos, ou o não foi possível conectar ao banco'
-
   end
 end

@@ -64,8 +64,6 @@ RSpec.describe ManipulateDB do
     second_row = result[1]
     third_row = result[2]
     fourth_row = result[3]
-    fifth_row = result[4]
-    sixth_row = result[5]
 
     expect(result.ntuples).to eq 42
     expect(first_row['cpf']).to eq '048.973.170-88'

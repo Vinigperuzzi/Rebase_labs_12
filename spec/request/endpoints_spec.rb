@@ -323,7 +323,7 @@ describe 'GET endpoints' do
   end
 
   context 'GET /exams/token' do
-    it 'returns an web page with exams details in light theme (the content is being tested in system tests with cypress)' do
+    it 'returns an web page with exams details in light theme (the content is being tested in system with cypress)' do
       get '/exams/212121'
 
       expect(last_response.status).to eq(200)
@@ -349,7 +349,7 @@ describe 'GET endpoints' do
   context 'GET /hello' do
     it 'returns a plain text response with "Hello world!"' do
       get '/hello'
-  
+
       expect(last_response.status).to eq(200)
       expect(last_response.body).to eq('Hello world!')
     end
@@ -361,16 +361,16 @@ describe 'GET endpoints' do
                             scope: 'test')
       @db_config = YAML.load_file('./config/db.config')['test']
       @conn = PG.connect(dbname: @db_config['database'],
-                        user: @db_config['username'],
-                        password: @db_config['password'],
-                        host: @db_config['host'],
-                        port: @db_config['port'])
+                         user: @db_config['username'],
+                         password: @db_config['password'],
+                         host: @db_config['host'],
+                         port: @db_config['port'])
 
       post '/populate_test_db?file_data=./public/csv/data2.csv'
-  
+
       result = @conn.exec('SELECT * FROM exams')
       expect(result.ntuples).to eq 39
-      
+
       db.drop_exams
     end
   end
@@ -383,15 +383,14 @@ describe 'GET endpoints' do
 
       @db_config = YAML.load_file('./config/db.config')['test']
       @conn = PG.connect(dbname: @db_config['database'],
-                        user: @db_config['username'],
-                        password: @db_config['password'],
-                        host: @db_config['host'],
-                        port: @db_config['port'])
+                         user: @db_config['username'],
+                         password: @db_config['password'],
+                         host: @db_config['host'],
+                         port: @db_config['port'])
 
       post '/drop_test_db'
-  
+
       result = @conn.exec('DROP TABLE IF EXISTS exams')
-      puts result.first.inspect
       expect(result.first).to eq nil
     end
   end
