@@ -16,10 +16,6 @@ rescue StandardError
   exit!
 end
 
-after(:all) do
-  @conn.exec('DROP TABLE IF EXISTS exams')
-end
-
 describe 'GET endpoints' do
   include Rack::Test::Methods
 
@@ -43,6 +39,8 @@ describe 'GET endpoints' do
       expect(cpfs[2]).to eq '083.892.729-70'
       expect(cpfs[3]).to eq '066.126.400-90'
       expect(cpfs[4]).to eq '089.034.562-70'
+
+      db.drop_exams
     end
   end
 
@@ -61,6 +59,8 @@ describe 'GET endpoints' do
       expect(tokens[2]).to eq 'IQCZ03'
       expect(tokens[3]).to eq 'IQCZ04'
       expect(tokens[4]).to eq 'IQCZ05'
+
+      db.drop_exams
     end
 
     it "and there's is no cpf match" do
@@ -72,6 +72,8 @@ describe 'GET endpoints' do
 
       tokens = JSON.parse(last_response.body)
       expect(tokens).to eq []
+
+      db.drop_exams
     end
   end
 
@@ -136,6 +138,8 @@ describe 'GET endpoints' do
       expect(types[12]['exam_type']).to eq 'ácido úrico'
       expect(types[12]['exam_type_limits']).to eq '15-61'
       expect(types[12]['exam_type_value']).to eq '2'
+
+      db.drop_exams
     end
 
     it 'returns all types for the specified token' do
@@ -147,6 +151,8 @@ describe 'GET endpoints' do
 
       types = JSON.parse(last_response.body)
       expect(types).to eq []
+
+      db.drop_exams
     end
   end
 
@@ -165,6 +171,8 @@ describe 'GET endpoints' do
       expect(info['dr_email']).to eq 'denna@wisozk.biz'
       expect(info['token']).to eq 'IQCZ17'
       expect(info['exam_date']).to eq '2021-08-05'
+
+      db.drop_exams
     end
 
     it "and there's no token match" do
@@ -176,6 +184,8 @@ describe 'GET endpoints' do
 
       info = JSON.parse(last_response.body)
       expect(info.nil?).to be true
+
+      db.drop_exams
     end
   end
 
@@ -196,6 +206,8 @@ describe 'GET endpoints' do
       expect(info['address']).to eq '165 Rua Rafaela'
       expect(info['city']).to eq 'Ituverava'
       expect(info['state']).to eq 'Alagoas'
+
+      db.drop_exams
     end
 
     it "and there's no cpf match" do
@@ -207,6 +219,8 @@ describe 'GET endpoints' do
 
       info = JSON.parse(last_response.body)
       expect(info.nil?).to be true
+
+      db.drop_exams
     end
   end
 
@@ -236,6 +250,8 @@ describe 'GET endpoints' do
       expect(info[0]['tests'][1]['type']).to eq 'leucócitos'
       expect(info[0]['tests'][1]['limits']).to eq '9-61'
       expect(info[0]['tests'][1]['result']).to eq '91'
+
+      db.drop_exams
     end
   end
 
@@ -264,6 +280,8 @@ describe 'GET endpoints' do
       expect(info['tests'][1]['type']).to eq 'leucócitos'
       expect(info['tests'][1]['limits']).to eq '9-61'
       expect(info['tests'][1]['result']).to eq '91'
+
+      db.drop_exams
     end
 
     it "and there's no match for token" do
@@ -275,6 +293,125 @@ describe 'GET endpoints' do
 
       info = JSON.parse(last_response.body)
       expect(info.nil?).to be true
+
+      db.drop_exams
+    end
+  end
+
+  context 'GET /exams' do
+    it 'returns an web page listing exams in light theme (the content is being tested in system tests with cypress)' do
+      get '/exams'
+
+      expect(last_response.status).to eq(200)
+
+      expect(last_response.headers['Content-Type']).to include('text/html')
+
+      expect(last_response.body).to include('<body class="bg-light text-dark">')
+    end
+  end
+
+  context 'GET /exams-dark' do
+    it 'returns an web page listing exams in dark theme (the content is being tested in system tests with cypress)' do
+      get '/exams-dark'
+
+      expect(last_response.status).to eq(200)
+
+      expect(last_response.headers['Content-Type']).to include('text/html')
+
+      expect(last_response.body).to include('<body class="bg-dark text-light">')
+    end
+  end
+
+  context 'GET /exams/token' do
+    it 'returns an web page with exams details in light theme (the content is being tested in system with cypress)' do
+      get '/exams/212121'
+
+      expect(last_response.status).to eq(200)
+
+      expect(last_response.headers['Content-Type']).to include('text/html')
+
+      expect(last_response.body).to include('<body class="bg-light text-dark">')
+    end
+  end
+
+  context 'GET /exams-dark/token' do
+    it 'returns an web page exams details in dark theme (the content is being tested in system tests with cypress)' do
+      get '/exams-dark/21221'
+
+      expect(last_response.status).to eq(200)
+
+      expect(last_response.headers['Content-Type']).to include('text/html')
+
+      expect(last_response.body).to include('<body class="bg-dark text-light">')
+    end
+  end
+
+  context 'GET /hello' do
+    it 'returns a plain text response with "Hello world!"' do
+      get '/hello'
+
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to eq('Hello world!')
+    end
+  end
+
+  context 'POST /populate_test_db' do
+    it 'and populate via post so js tests can manipulate test db"' do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      @db_config = YAML.load_file('./config/db.config')['test']
+      @conn = PG.connect(dbname: @db_config['database'],
+                         user: @db_config['username'],
+                         password: @db_config['password'],
+                         host: @db_config['host'],
+                         port: @db_config['port'])
+
+      post '/populate_test_db?file_data=./public/csv/data2.csv'
+
+      result = @conn.exec('SELECT * FROM exams')
+      expect(result.ntuples).to eq 39
+
+      db.drop_exams
+    end
+  end
+
+  context 'POST /drop_test_db' do
+    it 'and drop via post so js tests can manipulate test db"' do
+      db = ManipulateDB.new(csv_file: './spec/support/three_people.csv', config_file: './config/db.config',
+                            scope: 'test')
+      db.populate_db
+
+      @db_config = YAML.load_file('./config/db.config')['test']
+      @conn = PG.connect(dbname: @db_config['database'],
+                         user: @db_config['username'],
+                         password: @db_config['password'],
+                         host: @db_config['host'],
+                         port: @db_config['port'])
+
+      post '/drop_test_db'
+
+      result = @conn.exec('DROP TABLE IF EXISTS exams')
+      expect(result.first).to eq nil
+    end
+  end
+
+  context 'POST /import' do
+    it 'and returns a 202 status and a confirmation message' do
+      file = Rack::Test::UploadedFile.new('./public/csv/data2.csv', 'text/csv')
+
+      post '/import', { file: file }
+
+      expect(last_response.status).to eq(202)
+      expect(last_response.body).to eq('Dados recebidos e enfileirados no servidor')
+    end
+  end
+
+  context 'POST /import' do
+    it 'and returns a 400 status and an error message' do
+      post '/import'
+
+      expect(last_response.status).to eq(400)
+      expect(last_response.body).to eq('Arquivo não encontrado')
     end
   end
 end

@@ -2,4 +2,4 @@
 
 docker compose run --build --rm test_runner rspec
 
-docker compose run --build --rm cypress_test | grep -A 12 'Run Finished'
+docker compose run --build --rm cypress_test | grep -A 20 'Run Finished'

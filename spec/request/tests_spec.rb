@@ -16,10 +16,6 @@ rescue StandardError
   exit!
 end
 
-after(:all) do
-  @conn.exec('DROP TABLE IF EXISTS exams')
-end
-
 describe 'GET /tests' do
   include Rack::Test::Methods
 
@@ -96,6 +92,8 @@ describe 'GET /tests' do
     expect(data[0]['tests'][12]['type']).to eq 'ácido úrico'
     expect(data[0]['tests'][12]['limits']).to eq '15-61'
     expect(data[0]['tests'][12]['result']).to eq '78'
+
+    db.drop_exams
   end
 
   it "and there's no data" do

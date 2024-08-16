@@ -52,6 +52,41 @@ RSpec.describe ManipulateDB do
     expect(first_row['exam_type_value']).to eq '97'
   end
 
+  it 'populates the database with data from the csv file' do
+    db2 = ManipulateDB.new(csv_file: './spec/support/data2.csv', config_file: './config/db.config', scope: 'test')
+
+    @db.populate_add_db
+    db2.populate_add_db
+
+    result = @conn.exec('SELECT * FROM exams')
+
+    first_row = result[0]
+    second_row = result[1]
+    third_row = result[2]
+    fourth_row = result[3]
+
+    expect(result.ntuples).to eq 42
+    expect(first_row['cpf']).to eq '048.973.170-88'
+    expect(second_row['cpf']).to eq '048.973.170-88'
+    expect(third_row['cpf']).to eq '048.973.170-88'
+    expect(fourth_row['cpf']).to eq '458.789.223-45'
+    expect(first_row['full_name']).to eq 'Emilly Batista Neto'
+    expect(first_row['email']).to eq 'gerald.crona@ebert-quigley.com'
+    expect(first_row['birth_date']).to eq '2001-03-11'
+    expect(first_row['address']).to eq '165 Rua Rafaela'
+    expect(first_row['city']).to eq 'Ituverava'
+    expect(first_row['state']).to eq 'Alagoas'
+    expect(first_row['dr_crm']).to eq 'B000BJ20J4'
+    expect(first_row['dr_state']).to eq 'PI'
+    expect(first_row['dr_name']).to eq 'Maria Luiza Pires'
+    expect(first_row['dr_email']).to eq 'denna@wisozk.biz'
+    expect(first_row['token']).to eq 'IQCZ17'
+    expect(first_row['exam_date']).to eq '2021-08-05'
+    expect(first_row['exam_type']).to eq 'hemácias'
+    expect(first_row['exam_type_limits']).to eq '45-52'
+    expect(first_row['exam_type_value']).to eq '97'
+  end
+
   it 'and drop everithing' do
     @db.populate_db
     @db.drop_exams

@@ -14,14 +14,14 @@ Note: If you have any version of docker compose older than 2.0, you must run the
 docker compose up -d --build
 ```
 
-You can also control the containers with the bash running the commands for start and stop application:
+If you are on unix based operational system, you can also control the containers with the bash running the commands for start and stop application:
 
 ```bash
 bin/start
 bin/stop
 ```
 
-Note: maybe you'll have to give exec permission with(don't worry, is just the docker command):
+Note: maybe you'll have to give exec permission (don't worry, is just the docker command):
 
 ```bash
 chmod +x bin/start
@@ -40,10 +40,10 @@ Note: The scripts use the gem 'pg' that uses some libs from the postgreSQL clien
 - (RECOMENDED) You can use a docker container already configured with those configurations, so you can run a bash with these dependencie fullfilled, with the command:
 
 ```bash
-docker compose run --rm test_runner
+docker compose run --build --rm test_runner
 ```
 
-In case you run inside the container bash, the commands may differ a bit, cause of the different network that is being used to connection, localhost or docker bridge. The commands are:
+In case you run inside the container bash, the commands may differ a bit, because of the different network that is being used to connection, localhost or docker bridge. The commands are:
 
 ```bash
   ruby lib/populate_db_container.rb
@@ -267,7 +267,7 @@ Response example:
 Display a 'Hello world' message
 
 ##### /tests
-Show all the relevant data for a list of tokens. It's the json model specified in the snippet.
+Show all the relevant data for a list of tokens. It's the json model specified on the snippet.
 
 Response example:
 
@@ -449,11 +449,11 @@ Response example:
 The project has one container to run redis, that enqueue the jobs, and another to run sidekiq to execute those jobs in background. The sidekiq already came with an route to show the queues, jobs and processes.
 With all container running, all you must do is access the route for it in localhost:3000/sidekiq
 
-Note: if the page asks for user and password, is: admin senha123.
+Note: if the page asks for credentials, is: ```user:admin password:senha123```.
 
 
 ### How to test application
-The project has a container for tests, because it install several libs for postgre connection, and it must be encapsulated in container.
+The project has two containers for tests, because it install several libs for postgre connection, and it must be encapsulated in container.
 
 To run the terminal for the rspec command, you must simply run the container with the command:
 
@@ -467,7 +467,7 @@ To test just the cypress for navigation, you can run:
 docker compose run --rm cypress_test
 ```
 
-With the command bellow you can test both rspec for backend and cypress for frontend navigation. (Recommended for just test all application at once, not for development)
+If you are on an unix based system, with the command bellow you can test both rspec for backend and cypress for frontend navigation. (Recommended for just test all application at once, not for development)
 
 ```bash
 bin/test
@@ -479,15 +479,21 @@ If permissions error occur, you may run the command below (don't worry, is just 
 chmod +x bin/bash
 ```
 
-Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose commando displayed before. The same applies for the server in systems tests.
+Note: the database for tests must be already running for tests work properly, so you must have the container running with the docker compose command displayed before. The same applies for the server in systems tests.
 
+
+### Coverage
+
+Actually the project has 34 unit/model/request tests and 10 navigation/system, in a total of 44 tests. The coverage is 98.7% because of 3 lines of configuration, that even if i try to test, wouldn't make any sense. So i have 227/230 relevant lines covered in a total of 4 files (for rspec only).
+
+After running rspec in any way listed before, you can see the details of the coverage, opening the html file in ```coverage/index.html``` on the projects folder.
 
 
 
 ### For rebase people:
 
 ##### About containers:
-I prefer to use two databases from two separated container, so i can manage more decentralized the data for development and test and drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
+I prefer to use two databases from two separated container, so i can manage the data more decentralized for development and test, and so, can drop more easily any changes in test db. Also an third container to run the server.rb so it can install the dependencies in the container folder.
 The fourth container is the container for tests (and manipulation of database). I create it because of the dependencies and principally to run the server encapsulated inside the container, not exposing the port 3000, avoiding the duplicate error for puma server. Also, i can set an environment variable to indicated that the db that may be used is the one from tests, protecting the development DB, making possible to use the application while running tests.
 The container for tests, despite being in the docker-compose.yml, does not run with the compose up command, just with the run, specifying the service.
 
